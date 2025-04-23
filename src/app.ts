@@ -14,7 +14,7 @@ import { errorHandler } from "./utils/error.js";
 const app = express();
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
-const __static_location = path.resolve(__dirname, "..", "public");
+const __static_location = path.resolve(__dirname, "..", "public", "temp");
 
 app.use(helmet());
 app.use(morgan("dev"));

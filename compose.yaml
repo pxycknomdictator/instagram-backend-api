@@ -1,0 +1,14 @@
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    networks:
+      - instagram-network
+    restart: always
+    volumes:
+      - ./data:/data/db
+
+networks:
+  instagram-network:
