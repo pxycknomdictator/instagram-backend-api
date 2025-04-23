@@ -9,6 +9,7 @@ import compression from "compression";
 import cookieParser from "cookie-parser";
 
 import { corsOptions, jsonLimit } from "./constant.js";
+import { errorHandler } from "./utils/error.js";
 
 const app = express();
 
@@ -23,5 +24,7 @@ app.use(cors(corsOptions));
 app.use(express.static(__static_location));
 app.use(express.json({ limit: jsonLimit }));
 app.use(express.urlencoded({ limit: jsonLimit, extended: true }));
+
+app.use(errorHandler);
 
 export { app };
