@@ -25,4 +25,11 @@ const HTTP_STATUS = Object.freeze({
   gateway_timeout: 504,
 });
 
-export { HTTP_STATUS, configs };
+const corsOptions = {
+  origin: configs.CLIENT_ORIGIN,
+  credentials: true,
+};
+
+const jsonLimit = "20mb";
+
+export { HTTP_STATUS, configs, corsOptions, jsonLimit };
