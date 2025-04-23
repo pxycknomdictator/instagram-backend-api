@@ -1,0 +1,37 @@
+{
+  "name": "instagram-api",
+  "version": "1.0.0",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsc --watch & node --watch --env-file=.env dist/main.js",
+    "start": "node --env-file=.env dist/main.js",
+    "build": "tsc",
+    "format": "prettier --write .",
+    "lint": "eslint",
+    "docker": "sudo docker build -t instagram-api .",
+    "kill": "rm -rf dist"
+  },
+  "keywords": [
+    "instagram",
+    "api",
+    "express",
+    "mongodb"
+  ],
+  "author": "Noman",
+  "license": "ISC",
+  "packageManager": "pnpm@10.9.0",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.1",
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.14.1",
+    "eslint": "^9.25.1",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.0"
+  }
+}
