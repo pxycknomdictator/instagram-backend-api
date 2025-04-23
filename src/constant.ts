@@ -11,20 +11,6 @@ const configs = Object.freeze({
   CLIENT_ORIGIN: process.env.CLIENT_ORIGIN || "http://localhost:5173",
 });
 
-const HTTP_STATUS = Object.freeze({
-  ok: 200,
-  created: 201,
-  no_content: 204,
-  bad_request: 400,
-  unauthorized: 401,
-  forbidden: 403,
-  not_found: 404,
-  internal_server_error: 500,
-  bad_gateway: 502,
-  service_unavailable: 503,
-  gateway_timeout: 504,
-});
-
 const corsOptions = {
   origin: configs.CLIENT_ORIGIN,
   credentials: true,
@@ -32,4 +18,4 @@ const corsOptions = {
 
 const jsonLimit = "20mb";
 
-export { HTTP_STATUS, configs, corsOptions, jsonLimit };
+export { configs, corsOptions, jsonLimit };

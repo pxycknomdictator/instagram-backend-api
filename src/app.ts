@@ -25,6 +25,10 @@ app.use(express.static(__static_location));
 app.use(express.json({ limit: jsonLimit }));
 app.use(express.urlencoded({ limit: jsonLimit, extended: true }));
 
+import healthRouter from "./routes/health.routes.js";
+
+app.use("/api/v1/health", healthRouter);
+
 app.use(errorHandler);
 
 export { app };

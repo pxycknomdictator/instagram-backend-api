@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { configs, HTTP_STATUS } from "../constant.js";
+import { configs } from "../constant.js";
 import { ApiRes } from "./response.js";
 
 export const errorHandler = (
@@ -9,7 +9,7 @@ export const errorHandler = (
   _next: NextFunction,
 ) => {
   const message = error.message || "Something went wrong";
-  const statusCode = HTTP_STATUS.internal_server_error;
+  const statusCode = 5000;
   const stack = configs.NODE_ENV !== "production" ? error.stack : null;
 
   res.status(statusCode).json(new ApiRes(statusCode, message, stack));
