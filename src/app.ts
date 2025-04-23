@@ -25,9 +25,17 @@ app.use(express.static(__static_location));
 app.use(express.json({ limit: jsonLimit }));
 app.use(express.urlencoded({ limit: jsonLimit, extended: true }));
 
+import authRouter from "./routes/auth.routes.js";
+import userRouter from "./routes/user.routes.js";
+import likeRouter from "./routes/likes.routes.js";
 import healthRouter from "./routes/health.routes.js";
+import commentRouter from "./routes/comment.routes.js";
 
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/likes", likeRouter);
+app.use("/api/v1/users", userRouter);
 app.use("/api/v1/health", healthRouter);
+app.use("/api/v1/comments", commentRouter);
 
 app.use(errorHandler);
 
