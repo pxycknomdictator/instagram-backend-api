@@ -10,6 +10,8 @@ interface UserSchema extends Document {
   _id: Schema.Types.ObjectId;
   username: string;
   name: string;
+  email: string;
+  password: string;
   avatar: string;
   website: string;
   bio: string;
