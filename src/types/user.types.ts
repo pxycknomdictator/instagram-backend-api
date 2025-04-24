@@ -19,6 +19,7 @@ interface UserSchema extends Document {
   posts: Schema.Types.ObjectId[];
   followers: Schema.Types.ObjectId[];
   following: Schema.Types.ObjectId[];
+  refreshToken: string;
   createdAt: Date;
   updatedAt: Date;
 }
