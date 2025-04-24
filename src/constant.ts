@@ -1,8 +1,7 @@
 const configs = Object.freeze({
   NODE_ENV: process.env.NODE_ENV,
   PORT: process.env.PORT || 3000,
-  MONGODB_DATABASE_CONNECTION:
-    process.env.MONGODB_DATABASE_CONNECTION || "mongodb://localhost:27017/mydb",
+  DATABASE_URL: process.env.DATABASE_URL || "mongodb://localhost:27017/mydb",
   ARGON2_ROUND: process.env.ARGON2_ROUND || 20,
   JWT_ACCESS_TOKEN_SECRET_KEY: process.env.JWT_ACCESS_TOKEN_SECRET_KEY,
   JWT_REFRESH_TOKEN_SECRET_KEY: process.env.JWT_REFRESH_TOKEN_SECRET_KEY,

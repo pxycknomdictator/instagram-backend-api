@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "main.js",
   "type": "module",
+  "description": "A scalable and secure Instagram-style API built with TypeScript, Express, and MongoDB.",
   "scripts": {
     "dev": "tsc --watch & node --watch --env-file=.env dist/main.js",
     "start": "node --env-file=.env dist/main.js",
