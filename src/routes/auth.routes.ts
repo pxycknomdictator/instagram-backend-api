@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { register } from "../controllers/auth.controller.js";
-import { registerBodyValidateMiddleware } from "../middlewares/body.middleware.js";
+import { validateRegister } from "../middlewares/body.middleware.js";
 
 const router = Router();
 
-router.post("/signup", registerBodyValidateMiddleware, register);
+router.post("/signup", validateRegister, register);
 
 export default router;

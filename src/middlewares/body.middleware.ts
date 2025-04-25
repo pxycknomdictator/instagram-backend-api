@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { ApiRes } from "../utils/response.js";
 import { validateRegisterBody } from "../helpers/auth.helper.js";
 
-export function registerBodyValidateMiddleware(
+export function validateRegister(
   req: Request,
   res: Response,
   next: NextFunction,
