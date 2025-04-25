@@ -1,9 +1,9 @@
 import { ApiRes } from "../utils/response.js";
 import { User } from "../models/user.model.js";
-import { cookiesOptions } from "../constant.js";
 import { asyncGuard } from "../utils/asyncGuard.js";
-import { decodePassword, hashPassword } from "../helpers/password.helper.js";
 import { tokensGenerator } from "../helpers/token.helper.js";
+import { cookiesOptions, access_token, refresh_token } from "../constant.js";
+import { decodePassword, hashPassword } from "../helpers/password.helper.js";
 import { LoginSchema, RegisterSchema } from "../validators/user.validator.js";
 
 const register = asyncGuard(async (req, res) => {
@@ -60,11 +60,11 @@ const login = asyncGuard(async (req, res) => {
   );
 
   return res
-    .cookie("access_token", accessToken, {
+    .cookie(access_token, accessToken, {
       ...cookiesOptions,
       maxAge: 1000 * 60 * 60 * 24,
     })
-    .cookie("refresh_token", refreshToken, {
+    .cookie(refresh_token, refreshToken, {
       ...cookiesOptions,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     })
@@ -74,14 +74,15 @@ const login = asyncGuard(async (req, res) => {
 
 const logout = asyncGuard(async (req, res) => {
   const _id = req.user?._id;
+
   await User.findByIdAndUpdate(_id, { $unset: { refreshToken: "" } });
 
   res
-    .clearCookie("access_token", {
+    .clearCookie(access_token, {
       ...cookiesOptions,
       maxAge: 1000 * 60 * 60 * 24,
     })
-    .clearCookie("refresh_token", {
+    .clearCookie(refresh_token, {
       ...cookiesOptions,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     })

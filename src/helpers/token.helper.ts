@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongoose";
-import { UserInfo } from "../types/token.types.js";
 import { configs } from "../constant.js";
+import { UserInfo } from "../types/token.types.js";
 
 function accessTokenGenerator(payload: UserInfo) {
   return jwt.sign(payload, configs.JWT_ACCESS_TOKEN_SECRET_KEY!);

@@ -24,5 +24,14 @@ const cookiesOptions = {
 };
 
 const jsonLimit = "20mb";
+const access_token = "access_token";
+const refresh_token = "refresh_token";
 
-export { configs, corsOptions, jsonLimit, cookiesOptions };
+export {
+  configs,
+  corsOptions,
+  jsonLimit,
+  cookiesOptions,
+  access_token,
+  refresh_token,
+};

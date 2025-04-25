@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { configs } from "../constant.js";
 import { ApiRes } from "./response.js";
+import { configs } from "../constant.js";
 
 export const errorHandler = (
   error: Error,

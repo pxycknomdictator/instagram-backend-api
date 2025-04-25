@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-import { ApiRes } from "../utils/response.js";
+
 import { configs } from "../constant.js";
+import { ApiRes } from "../utils/response.js";
 import { UserInfo } from "../types/token.types.js";
 
 export async function validateAuth(
