@@ -2,11 +2,11 @@ import { User } from "../models/user.model.js";
 import { ApiRes } from "../utils/response.js";
 import { asyncGuard } from "../utils/asyncGuard.js";
 import { hashPassword } from "../helpers/password.helper.js";
-import { RegisterBody } from "../validators/user.validator.js";
+import { RegisterSchema } from "../validators/user.validator.js";
 
 const register = asyncGuard(async (req, res) => {
   // Don't worry bro you used middleware for body testing
-  const { name, email, password, username }: RegisterBody = req.body;
+  const { name, email, password, username }: RegisterSchema = req.body;
 
   const isExists = await User.findOne({
     $or: [{ username }, { email }],
@@ -33,4 +33,8 @@ const register = asyncGuard(async (req, res) => {
   return res.status(201).json(new ApiRes(201, "User registered", response));
 });
 
-export { register };
+const login = asyncGuard(async (req, res) => {
+  res.status(200).json(new ApiRes(200, "Login", { name: "Noman" }));
+});
+
+export { register, login };

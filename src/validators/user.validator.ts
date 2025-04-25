@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const registerBody = z.object({
+const registerSchema = z.object({
   username: z
     .string({ message: "username is required" })
     .trim()
@@ -21,6 +21,19 @@ const registerBody = z.object({
     .min(8, { message: "password contain at least 8 characters" }),
 });
 
-type RegisterBody = z.infer<typeof registerBody>;
+const loginSchema = z.object({
+  email: z
+    .string({ message: "email is required" })
+    .trim()
+    .toLowerCase()
+    .email({ message: "Invalid Email Address" }),
 
-export { registerBody, RegisterBody };
+  password: z
+    .string({ message: "password is required" })
+    .min(1, { message: "password contain at least 1 character" }),
+});
+
+type RegisterSchema = z.infer<typeof registerSchema>;
+type LoginSchema = z.infer<typeof loginSchema>;
+
+export { registerSchema, RegisterSchema, loginSchema, LoginSchema };
