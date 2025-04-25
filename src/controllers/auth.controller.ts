@@ -1,12 +1,10 @@
-import * as argon2 from "argon2";
-import jwt from "jsonwebtoken";
-
-import { User } from "../models/user.model.js";
 import { ApiRes } from "../utils/response.js";
+import { User } from "../models/user.model.js";
+import { cookiesOptions } from "../constant.js";
 import { asyncGuard } from "../utils/asyncGuard.js";
-import { hashPassword } from "../helpers/password.helper.js";
+import { decodePassword, hashPassword } from "../helpers/password.helper.js";
+import { tokensGenerator } from "../helpers/token.helper.js";
 import { LoginSchema, RegisterSchema } from "../validators/user.validator.js";
-import { configs } from "../constant.js";
 
 const register = asyncGuard(async (req, res) => {
   // Don't worry bro you used middleware for body testing
@@ -44,26 +42,34 @@ const login = asyncGuard(async (req, res) => {
   const user = await User.findOne({ email }).select("+password");
   if (!user) return res.status(404).json(new ApiRes(404, "Credentials Error"));
 
-  const isPasswordCorrect = await argon2.verify(user.password, password);
+  const isPasswordCorrect = await decodePassword(user.password, password);
   if (!isPasswordCorrect) {
     return res.status(404).json(new ApiRes(404, "Credentials Error"));
   }
 
-  const accessToken = jwt.sign(
-    { _id: user._id, username: user.username, email: user.email },
-    configs.JWT_ACCESS_TOKEN_SECRET_KEY!,
+  const [accessToken, refreshToken] = tokensGenerator({
+    _id: user._id,
+    username: user.username,
+    email: user.email,
+  });
+
+  const client = await User.findByIdAndUpdate(
+    user._id,
+    { refreshToken },
+    { new: true },
   );
 
-  const refreshToken = jwt.sign(
-    { _id: user._id },
-    configs.JWT_ACCESS_TOKEN_SECRET_KEY!,
-  );
-
-  await User.findByIdAndUpdate(user._id, { refreshToken }, { new: true });
-
-  res.cookie("access_token", accessToken).cookie("refresh_token", refreshToken);
-
-  return res.status(200).json(new ApiRes(200, "Login"));
+  return res
+    .cookie("access_token", accessToken, {
+      ...cookiesOptions,
+      maxAge: 1000 * 60 * 60 * 24,
+    })
+    .cookie("refresh_token", refreshToken, {
+      ...cookiesOptions,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    })
+    .status(200)
+    .json(new ApiRes(200, "Login", `${client?.username} is Logged In`));
 });
 
 export { register, login };

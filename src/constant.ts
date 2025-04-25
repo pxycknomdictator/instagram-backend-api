@@ -18,6 +18,11 @@ const corsOptions = {
   credentials: true,
 };
 
+const cookiesOptions = {
+  httpOnly: true,
+  secure: true,
+};
+
 const jsonLimit = "20mb";
 
-export { configs, corsOptions, jsonLimit };
+export { configs, corsOptions, jsonLimit, cookiesOptions };
