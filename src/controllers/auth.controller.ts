@@ -72,4 +72,21 @@ const login = asyncGuard(async (req, res) => {
     .json(new ApiRes(200, "Login", `${client?.username} is Logged In`));
 });
 
-export { register, login };
+const logout = asyncGuard(async (req, res) => {
+  const _id = req.user?._id;
+  await User.findByIdAndUpdate(_id, { $unset: { refreshToken: "" } });
+
+  res
+    .clearCookie("access_token", {
+      ...cookiesOptions,
+      maxAge: 1000 * 60 * 60 * 24,
+    })
+    .clearCookie("refresh_token", {
+      ...cookiesOptions,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    })
+    .status(200)
+    .json(new ApiRes(200, "Logout"));
+});
+
+export { register, login, logout };
