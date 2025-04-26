@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import { ObjectId } from "mongoose";
 import { ApiRes } from "../utils/response.js";
 import { User } from "../models/user.model.js";
 import { asyncGuard } from "../utils/asyncGuard.js";
@@ -10,7 +9,7 @@ import {
   refresh_token,
   configs,
 } from "../constant.js";
-import { DecodedTokenPayload } from "../types/token.types.js";
+import { DecodedTokenPayload, UserInfo } from "../types/token.types.js";
 import { decodePassword, hashPassword } from "../helpers/password.helper.js";
 import { LoginSchema, RegisterSchema } from "../validators/user.validator.js";
 
@@ -123,15 +122,15 @@ const renewTokens = asyncGuard(async (req, res) => {
     .select("-password")
     .lean();
 
-  if (!user) {
-    return res.status(404).json(new ApiRes(404, "User not found"));
-  }
+  if (!user) return res.status(404).json(new ApiRes(404, "User not found"));
 
-  const [accessToken, refreshToken] = tokensGenerator({
-    _id: user?._id as ObjectId,
-    username: user?.username as string,
-    email: user?.email as string,
-  });
+  const payload: UserInfo = {
+    _id: user?._id,
+    username: user?.username,
+    email: user?.email,
+  };
+
+  const [accessToken, refreshToken] = tokensGenerator(payload);
 
   await User.findByIdAndUpdate(user?._id, { $set: { refreshToken } });
 
