@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { ObjectId } from "mongoose";
 import { ApiRes } from "../utils/response.js";
 import { User } from "../models/user.model.js";
 import { asyncGuard } from "../utils/asyncGuard.js";
@@ -9,9 +10,9 @@ import {
   refresh_token,
   configs,
 } from "../constant.js";
+import { DecodedTokenPayload } from "../types/token.types.js";
 import { decodePassword, hashPassword } from "../helpers/password.helper.js";
 import { LoginSchema, RegisterSchema } from "../validators/user.validator.js";
-import { ObjectId } from "mongoose";
 
 const register = asyncGuard(async (req, res) => {
   // Don't worry bro you used middleware for body testing
@@ -104,8 +105,6 @@ const renewTokens = asyncGuard(async (req, res) => {
   if (!incomingRefreshToken) {
     return res.status(401).json(new ApiRes(401, "Token is Required"));
   }
-
-  type DecodedTokenPayload = { _id: string };
 
   let decoded: DecodedTokenPayload;
 

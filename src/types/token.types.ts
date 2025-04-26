@@ -6,4 +6,8 @@ interface UserInfo {
   email: string;
 }
 
-export { UserInfo };
+type DecodedTokenPayload = {
+  _id: string;
+};
+
+export { UserInfo, DecodedTokenPayload };
