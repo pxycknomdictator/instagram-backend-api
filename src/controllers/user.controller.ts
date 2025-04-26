@@ -2,6 +2,15 @@ import { ApiRes } from "../utils/response.js";
 import { User } from "../models/user.model.js";
 import { asyncGuard } from "../utils/asyncGuard.js";
 
+const currentUser = asyncGuard(async (req, res) => {
+  const _id = req.user?._id;
+  const user = await User.findById(_id).select("-password -refreshToken");
+
+  if (!user) return res.status(404).json(new ApiRes(404, "User not found"));
+
+  return res.status(200).json(new ApiRes(200, "Current login User", user));
+});
+
 const getUser = asyncGuard(async (req, res) => {
   const username = req.params?.username;
 
@@ -18,4 +27,4 @@ const getUser = asyncGuard(async (req, res) => {
   return res.status(200).json(new ApiRes(200, "User Information", user));
 });
 
-export { getUser };
+export { getUser, currentUser };
