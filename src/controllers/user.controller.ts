@@ -27,4 +27,13 @@ const getUser = asyncGuard(async (req, res) => {
   return res.status(200).json(new ApiRes(200, "User Information", user));
 });
 
-export { getUser, currentUser };
+const getFollowers = asyncGuard(async (req, res) => {
+  const username = req.params?.username;
+  const followers = await User.findOne({ username }, { followers: 1, _id: 0 });
+
+  return res
+    .status(200)
+    .json(new ApiRes(200, `${username} followers`, followers));
+});
+
+export { getUser, currentUser, getFollowers };
