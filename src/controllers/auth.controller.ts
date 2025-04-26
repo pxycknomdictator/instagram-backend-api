@@ -1,17 +1,13 @@
 import jwt from "jsonwebtoken";
+import { configs } from "../constant.js";
 import { ApiRes } from "../utils/response.js";
 import { User } from "../models/user.model.js";
 import { asyncGuard } from "../utils/asyncGuard.js";
 import { tokensGenerator } from "../helpers/token.helper.js";
-import {
-  cookiesOptions,
-  access_token,
-  refresh_token,
-  configs,
-} from "../constant.js";
 import { DecodedTokenPayload, UserInfo } from "../types/token.types.js";
 import { decodePassword, hashPassword } from "../helpers/password.helper.js";
 import { LoginSchema, RegisterSchema } from "../validators/user.validator.js";
+import { removeTokensInCookies, setTokensInCookies } from "../utils/cookies.js";
 
 const register = asyncGuard(async (req, res) => {
   // Don't worry bro you used middleware for body testing
@@ -66,15 +62,9 @@ const login = asyncGuard(async (req, res) => {
     { new: true },
   );
 
+  setTokensInCookies(res, accessToken, refreshToken);
+
   return res
-    .cookie(access_token, accessToken, {
-      ...cookiesOptions,
-      maxAge: 1000 * 60 * 60 * 24,
-    })
-    .cookie(refresh_token, refreshToken, {
-      ...cookiesOptions,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-    })
     .status(200)
     .json(new ApiRes(200, "Login", `${client?.username} is Logged In`));
 });
@@ -84,17 +74,8 @@ const logout = asyncGuard(async (req, res) => {
 
   await User.findByIdAndUpdate(_id, { $unset: { refreshToken: "" } });
 
-  res
-    .clearCookie(access_token, {
-      ...cookiesOptions,
-      maxAge: 1000 * 60 * 60 * 24,
-    })
-    .clearCookie(refresh_token, {
-      ...cookiesOptions,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-    })
-    .status(200)
-    .json(new ApiRes(200, "Logout"));
+  removeTokensInCookies(res);
+  res.status(200).json(new ApiRes(200, "Logout"));
 });
 
 const renewTokens = asyncGuard(async (req, res) => {
@@ -134,17 +115,8 @@ const renewTokens = asyncGuard(async (req, res) => {
 
   await User.findByIdAndUpdate(user?._id, { $set: { refreshToken } });
 
-  return res
-    .cookie(access_token, accessToken, {
-      ...cookiesOptions,
-      maxAge: 1000 * 60 * 60 * 24,
-    })
-    .cookie(refresh_token, refreshToken, {
-      ...cookiesOptions,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-    })
-    .status(200)
-    .json(new ApiRes(200, "Tokens are Renewed"));
+  setTokensInCookies(res, accessToken, refreshToken);
+  return res.status(200).json(new ApiRes(200, "Tokens are Renewed"));
 });
 
 export { register, login, logout, renewTokens };

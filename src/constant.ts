@@ -26,6 +26,8 @@ const cookiesOptions = {
 const jsonLimit = "20mb";
 const access_token = "access_token";
 const refresh_token = "refresh_token";
+const maxAge1 = 1000 * 60 * 60 * 24;
+const maxAge2 = 1000 * 60 * 60 * 24 * 7;
 
 export {
   configs,
@@ -34,4 +36,6 @@ export {
   cookiesOptions,
   access_token,
   refresh_token,
+  maxAge1,
+  maxAge2,
 };
