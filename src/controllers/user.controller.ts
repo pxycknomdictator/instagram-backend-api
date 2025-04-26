@@ -31,6 +31,10 @@ const getFollowers = asyncGuard(async (req, res) => {
   const username = req.params?.username;
   const followers = await User.findOne({ username }, { followers: 1, _id: 0 });
 
+  if (!followers) {
+    return res.status(404).json(new ApiRes(404, "User not found"));
+  }
+
   return res
     .status(200)
     .json(new ApiRes(200, `${username} followers`, followers));
@@ -39,6 +43,10 @@ const getFollowers = asyncGuard(async (req, res) => {
 const getFollowing = asyncGuard(async (req, res) => {
   const username = req.params?.username;
   const following = await User.findOne({ username }, { following: 1, _id: 0 });
+
+  if (!following) {
+    return res.status(404).json(new ApiRes(404, "User not found"));
+  }
 
   return res
     .status(200)
