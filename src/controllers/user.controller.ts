@@ -1,6 +1,8 @@
+import { AVATAR } from "../constant.js";
 import { ApiRes } from "../utils/response.js";
 import { User } from "../models/user.model.js";
 import { asyncGuard } from "../utils/asyncGuard.js";
+import { uploadFileOneCloud } from "../helpers/cloudinary.helper.js";
 
 const currentUser = asyncGuard(async (req, res) => {
   const _id = req.user?._id;
@@ -53,4 +55,27 @@ const getFollowing = asyncGuard(async (req, res) => {
     .json(new ApiRes(200, `${username} following`, following));
 });
 
-export { getUser, currentUser, getFollowers, getFollowing };
+const updateAvatar = asyncGuard(async (req, res) => {
+  const _id = req.user?._id;
+  const filePath = req.file?.path;
+
+  if (!filePath) {
+    return res.status(400).json(new ApiRes(400, "File is required"));
+  }
+
+  const link = await uploadFileOneCloud(filePath, AVATAR);
+
+  if (!link) {
+    return res.status(400).json(new ApiRes(400, "Failed to upload file"));
+  }
+
+  const user = await User.findByIdAndUpdate(
+    _id,
+    { avatar: link },
+    { new: true },
+  ).select("-password -refreshToken -email");
+
+  return res.status(200).json(new ApiRes(200, "File uploaded", user?.avatar));
+});
+
+export { getUser, currentUser, getFollowers, getFollowing, updateAvatar };
