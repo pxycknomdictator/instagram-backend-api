@@ -1,6 +1,6 @@
-import { Schema } from "mongoose";
+import { Schema, Document } from "mongoose";
 
-enum Gender {
+enum GenderType {
   male = "male",
   female = "female",
   others = "others",
@@ -15,7 +15,7 @@ interface UserSchema extends Document {
   avatar: string;
   website: string;
   bio: string;
-  gender: Gender;
+  gender: GenderType;
   posts: Schema.Types.ObjectId[];
   followers: Schema.Types.ObjectId[];
   following: Schema.Types.ObjectId[];
@@ -24,4 +24,4 @@ interface UserSchema extends Document {
   updatedAt: Date;
 }
 
-export { Gender, UserSchema };
+export { GenderType, UserSchema };

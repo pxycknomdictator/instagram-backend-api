@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { Gender, UserSchema } from "../types/user.types.js";
+import { GenderType, UserSchema } from "../types/user.types.js";
 
 const userSchema = new Schema<UserSchema>(
   {
@@ -9,7 +9,7 @@ const userSchema = new Schema<UserSchema>(
     password: { type: String, required: true, minlength: 8, select: false },
     avatar: { type: String, default: "", required: false },
     bio: { type: String, minlength: 20, required: false },
-    gender: { type: String, enum: Object.values(Gender), required: false },
+    gender: { type: String, enum: Object.values(GenderType), required: false },
     website: { type: String, required: false },
     refreshToken: { type: String, required: false, select: false },
     posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
