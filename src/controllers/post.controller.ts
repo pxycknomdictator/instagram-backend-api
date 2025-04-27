@@ -1,7 +1,8 @@
-import { configs } from "../constant.js";
+import { configs, POSTS } from "../constant.js";
 import { ApiRes } from "../utils/response.js";
 import { Post } from "../models/post.model.js";
 import { asyncGuard } from "../utils/asyncGuard.js";
+import { uploadFileOneCloud } from "../helpers/cloudinary.helper.js";
 
 const getPosts = asyncGuard(async (_, res) => {
   const posts = await Post.find();
@@ -10,11 +11,21 @@ const getPosts = asyncGuard(async (_, res) => {
 
 const createPost = asyncGuard(async (req, res) => {
   const createdBy = req.user?._id;
-  const file = req.file?.filename;
-  const postUrl = `${configs.SERVER_ORIGIN}:${configs.PORT}/${file}`;
+  const filePath = req.file?.path;
 
   let payload = req.body ? { ...req.body, createdBy } : { createdBy };
-  if (file) payload.postUrl = postUrl;
+
+  if (!filePath) {
+    return res.status(400).json(new ApiRes(400, "File is required"));
+  }
+
+  const link = await uploadFileOneCloud(filePath, POSTS);
+
+  if (!link) {
+    return res.status(500).json(new ApiRes(500, "Failed to upload file"));
+  }
+
+  payload.postUrl = link;
 
   const post = await Post.create(payload);
 

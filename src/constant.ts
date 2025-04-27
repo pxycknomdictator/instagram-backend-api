@@ -29,6 +29,8 @@ const access_token = "access_token";
 const refresh_token = "refresh_token";
 const maxAge1 = 1000 * 60 * 60 * 24;
 const maxAge2 = 1000 * 60 * 60 * 24 * 7;
+const POSTS = "instagram-posts";
+const AVATAR = "avatar";
 
 export {
   configs,
@@ -39,4 +41,6 @@ export {
   refresh_token,
   maxAge1,
   maxAge2,
+  POSTS,
+  AVATAR,
 };

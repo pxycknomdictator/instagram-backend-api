@@ -33,6 +33,7 @@
   "packageManager": "pnpm@10.9.0",
   "dependencies": {
     "argon2": "^0.43.0",
+    "cloudinary": "^2.6.0",
     "compression": "^1.8.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
