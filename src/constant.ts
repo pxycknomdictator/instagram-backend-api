@@ -11,7 +11,6 @@ const configs = Object.freeze({
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
   CLIENT_ORIGIN: process.env.CLIENT_ORIGIN || "http://localhost:5173",
-  SERVER_ORIGIN: process.env.SERVER_ORIGIN || "http://localhost",
 });
 
 const corsOptions = {
