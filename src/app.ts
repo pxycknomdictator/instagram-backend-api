@@ -41,4 +41,4 @@ app.use("/api/v1/comments", commentRouter);
 
 app.use(errorHandler);
 
-export { app };
+export { app, __static_location };
