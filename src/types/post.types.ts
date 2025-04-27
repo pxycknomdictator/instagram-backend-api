@@ -11,6 +11,8 @@ interface PostSchema extends Document {
   postType: PostType;
   postUrl: string;
   private: boolean;
+  title?: string;
+  description?: string;
   likes: Schema.Types.ObjectId[];
   comments: Schema.Types.ObjectId[];
   createdAt: Date;
