@@ -21,7 +21,10 @@
     "express",
     "mongodb"
   ],
-  "author": "Noman",
+  "author": {
+    "name": "Noman",
+    "email": "pxycknomdictator@gmail.com"
+  },
   "license": "ISC",
   "packageManager": "pnpm@10.9.0",
   "dependencies": {
