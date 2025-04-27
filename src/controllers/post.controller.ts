@@ -7,4 +7,8 @@ const getPosts = asyncGuard(async (_, res) => {
   return res.status(200).json(new ApiRes(200, "Posts", posts));
 });
 
-export { getPosts };
+const createPost = asyncGuard(async (_, res) => {
+  return res.status(201).json(new ApiRes(201, "Post created"));
+});
+
+export { getPosts, createPost };
