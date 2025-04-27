@@ -26,6 +26,10 @@
     "email": "pxycknomdictator@gmail.com"
   },
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pxycknomdictator/instagram-backend-api.git"
+  },
   "packageManager": "pnpm@10.9.0",
   "dependencies": {
     "argon2": "^0.43.0",
