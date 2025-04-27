@@ -27,11 +27,13 @@ app.use(express.urlencoded({ limit: jsonLimit, extended: true }));
 
 import authRouter from "./routes/auth.routes.js";
 import userRouter from "./routes/user.routes.js";
+import postRouter from "./routes/post.routes.js";
 import likeRouter from "./routes/like.routes.js";
 import healthRouter from "./routes/health.routes.js";
 import commentRouter from "./routes/comment.routes.js";
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/posts", postRouter);
 app.use("/api/v1/likes", likeRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/health", healthRouter);
