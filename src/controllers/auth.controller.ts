@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { isValidObjectId } from "mongoose";
 
 import { configs } from "../constant.js";
 import { ApiRes } from "../utils/response.js";
@@ -74,6 +75,10 @@ const login = asyncGuard(async (req, res) => {
 const logout = asyncGuard(async (req, res) => {
   const _id = req.user?._id;
 
+  if (!isValidObjectId(_id)) {
+    return res.status(400).json(new ApiRes(400, "Valid id is required"));
+  }
+
   await User.findByIdAndUpdate(_id, { $unset: { refreshToken: "" } });
 
   removeTokensInCookies(res);
@@ -123,6 +128,10 @@ const renewTokens = asyncGuard(async (req, res) => {
 
 const deleteAccount = asyncGuard(async (req, res) => {
   const _id = req.user?._id;
+
+  if (!isValidObjectId(_id)) {
+    return res.status(400).json(new ApiRes(400, "Valid id is required"));
+  }
 
   await User.findByIdAndDelete(_id);
   await Post.deleteMany({ createdBy: _id });

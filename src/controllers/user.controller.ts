@@ -1,3 +1,4 @@
+import { isValidObjectId } from "mongoose";
 import { AVATAR } from "../constant.js";
 import { ApiRes } from "../utils/response.js";
 import { User } from "../models/user.model.js";
@@ -9,6 +10,10 @@ import { decodePassword, hashPassword } from "../helpers/password.helper.js";
 const currentUser = asyncGuard(async (req, res) => {
   const _id = req.user?._id;
   const user = await User.findById(_id).select("-password -refreshToken");
+
+  if (!isValidObjectId(_id)) {
+    return res.status(400).json(new ApiRes(400, "Valid id is required"));
+  }
 
   if (!user) return res.status(404).json(new ApiRes(404, "User not found"));
 
@@ -61,6 +66,10 @@ const updateAvatar = asyncGuard(async (req, res) => {
   const _id = req.user?._id;
   const filePath = req.file?.path;
 
+  if (!isValidObjectId(_id)) {
+    return res.status(400).json(new ApiRes(400, "Valid id is required"));
+  }
+
   if (!filePath) {
     return res.status(400).json(new ApiRes(400, "File is required"));
   }
@@ -83,6 +92,10 @@ const updateAvatar = asyncGuard(async (req, res) => {
 const changePassword = asyncGuard(async (req, res) => {
   const _id = req.user?._id;
   const { oldPassword, newPassword }: PasswordSchema = req.body;
+
+  if (!isValidObjectId(_id)) {
+    return res.status(400).json(new ApiRes(400, "Valid id is required"));
+  }
 
   const user = await User.findById(_id).select("+password -refreshToken");
   if (!user) return res.status(404).json(new ApiRes(404, "User not found"));
