@@ -11,6 +11,7 @@ import { DecodedTokenPayload, UserInfo } from "../types/token.types.js";
 import { decodePassword, hashPassword } from "../helpers/password.helper.js";
 import { LoginSchema, RegisterSchema } from "../validators/user.validator.js";
 import { removeTokensInCookies, setTokensInCookies } from "../utils/cookies.js";
+import { deleteFileFromCloud } from "../helpers/cloudinary.helper.js";
 
 const register = asyncGuard(async (req, res) => {
   // Don't worry bro you used middleware for body testing
@@ -130,13 +131,39 @@ const deleteAccount = asyncGuard(async (req, res) => {
   const _id = req.user?._id;
 
   if (!isValidObjectId(_id)) {
-    return res.status(400).json(new ApiRes(400, "Valid id is required"));
+    return res.status(400).json(new ApiRes(400, "Valid ID is required"));
   }
 
-  await User.findByIdAndDelete(_id);
-  await Post.deleteMany({ createdBy: _id });
+  const user = await User.findById(_id);
 
-  return res.status(200).json(new ApiRes(200, "Account deleted :("));
+  if (!user) {
+    return res.status(404).json(new ApiRes(404, "User not found"));
+  }
+
+  if (user.imagePublicId && user.avatarType) {
+    try {
+      await deleteFileFromCloud(user.imagePublicId, user.avatarType);
+    } catch (err) {
+      console.warn("Avatar deletion failed:", err);
+    }
+  }
+
+  const posts = await Post.find({ createdBy: _id });
+
+  for (const post of posts) {
+    if (post.postPublicId && post.postType) {
+      try {
+        await deleteFileFromCloud(post.postPublicId, post.postType);
+      } catch (err) {
+        console.warn("Posts deletion failed:", err);
+      }
+    }
+  }
+
+  await Post.deleteMany({ createdBy: _id });
+  await User.findByIdAndDelete(_id);
+
+  return res.status(200).json(new ApiRes(200, "Account deleted 😢"));
 });
 
 export { register, login, logout, renewTokens, deleteAccount };

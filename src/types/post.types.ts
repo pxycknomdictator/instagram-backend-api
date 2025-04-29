@@ -4,6 +4,8 @@ interface PostSchema extends Document {
   _id: Schema.Types.ObjectId;
   createdBy: Schema.Types.ObjectId;
   postUrl: string;
+  postPublicId: string;
+  postType: string;
   private: boolean;
   title?: string;
   description?: string;

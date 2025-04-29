@@ -14,6 +14,8 @@ interface UserSchema extends Document {
   password: string;
   avatar: string;
   website: string;
+  imagePublicId: string;
+  avatarType: string;
   bio: string;
   gender: GenderType;
   posts: Schema.Types.ObjectId[];

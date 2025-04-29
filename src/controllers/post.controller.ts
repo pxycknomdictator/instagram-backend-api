@@ -25,13 +25,19 @@ const createPost = asyncGuard(async (req, res) => {
     return res.status(400).json(new ApiRes(400, "File is required"));
   }
 
-  const link = await uploadFileOneCloud(filePath, POSTS);
+  const {
+    imagePublicId: postPublicId,
+    link,
+    fileType,
+  } = await uploadFileOneCloud(filePath, POSTS);
 
-  if (!link) {
+  if (!link && !postPublicId && !fileType) {
     return res.status(500).json(new ApiRes(500, "Failed to upload file"));
   }
 
   payload.postUrl = link;
+  payload.postPublicId = postPublicId;
+  payload.postType = fileType;
 
   const post = await Post.create(payload);
   await User.findByIdAndUpdate(
@@ -44,7 +50,7 @@ const createPost = asyncGuard(async (req, res) => {
     return res.status(400).json(new ApiRes(400, "Failed to create post"));
   }
 
-  return res.status(201).json(new ApiRes(201, "Post created", post));
+  return res.status(201).json(new ApiRes(201, "Post created"));
 });
 
 const deletePost = asyncGuard(async (req, res) => {

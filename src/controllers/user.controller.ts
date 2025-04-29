@@ -74,19 +74,22 @@ const updateAvatar = asyncGuard(async (req, res) => {
     return res.status(400).json(new ApiRes(400, "File is required"));
   }
 
-  const link = await uploadFileOneCloud(filePath, AVATAR);
+  const { imagePublicId, link, fileType } = await uploadFileOneCloud(
+    filePath,
+    AVATAR,
+  );
 
-  if (!link) {
+  if (!link && !imagePublicId && !fileType) {
     return res.status(400).json(new ApiRes(400, "Failed to upload file"));
   }
 
-  const user = await User.findByIdAndUpdate(
+  await User.findByIdAndUpdate(
     _id,
-    { avatar: link },
+    { avatar: link, imagePublicId, avatarType: fileType },
     { new: true },
   ).select("-password -refreshToken -email");
 
-  return res.status(200).json(new ApiRes(200, "File uploaded", user?.avatar));
+  return res.status(200).json(new ApiRes(200, "Avatar uploaded"));
 });
 
 const changePassword = asyncGuard(async (req, res) => {

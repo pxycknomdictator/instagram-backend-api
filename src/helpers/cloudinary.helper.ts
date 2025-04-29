@@ -19,10 +19,34 @@ export const uploadFileOneCloud = async (
     });
 
     await fs.unlink(filePath);
-    return response.secure_url;
+    return {
+      imagePublicId: response.public_id,
+      link: response.secure_url,
+      fileType: response.resource_type,
+    };
   } catch (error) {
     console.error("Error uploading file to Cloudinary:", error);
     await fs.unlink(filePath);
     throw new Error("Failed to upload file to Cloudinary");
+  }
+};
+
+export const deleteFileFromCloud = async (
+  publicId: string,
+  resource_type: string,
+) => {
+  try {
+    const response = await cloudinary.uploader.destroy(publicId, {
+      resource_type,
+    });
+
+    if (response.result !== "ok") {
+      throw new Error(`Cloudinary deletion failed: ${response.result}`);
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Error deleting file from Cloudinary:", error);
+    throw new Error("Failed to delete file from Cloudinary");
   }
 };
