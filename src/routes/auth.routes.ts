@@ -7,13 +7,15 @@ import {
   login,
   logout,
   renewTokens,
+  deleteAccount,
 } from "../controllers/auth.controller.js";
 
 const router = Router();
 
-router.post("/signup", validate(registerSchema), register);
-router.post("/login", validate(loginSchema), login);
-router.get("/logout", validateAuth, logout);
 router.post("/renew-tokens", renewTokens);
+router.get("/logout", validateAuth, logout);
+router.post("/login", validate(loginSchema), login);
+router.post("/signup", validate(registerSchema), register);
+router.delete("/account/delete", validateAuth, deleteAccount);
 
 export default router;

@@ -1,7 +1,9 @@
 import jwt from "jsonwebtoken";
+
 import { configs } from "../constant.js";
 import { ApiRes } from "../utils/response.js";
 import { User } from "../models/user.model.js";
+import { Post } from "../models/post.model.js";
 import { asyncGuard } from "../utils/asyncGuard.js";
 import { tokensGenerator } from "../helpers/token.helper.js";
 import { DecodedTokenPayload, UserInfo } from "../types/token.types.js";
@@ -119,4 +121,13 @@ const renewTokens = asyncGuard(async (req, res) => {
   return res.status(200).json(new ApiRes(200, "Tokens are Renewed"));
 });
 
-export { register, login, logout, renewTokens };
+const deleteAccount = asyncGuard(async (req, res) => {
+  const _id = req.user?._id;
+
+  await User.findByIdAndDelete(_id);
+  await Post.deleteMany({ createdBy: _id });
+
+  return res.status(200).json(new ApiRes(200, "Account deleted :("));
+});
+
+export { register, login, logout, renewTokens, deleteAccount };
