@@ -11,9 +11,10 @@
     "format": "prettier --write .",
     "lint": "eslint",
     "kill": "rm -rf dist",
-    "docker:build": "sudo docker build -t instagram-api .",
+    "docker:run": "node dist/main.js",
     "docker:up": "sudo docker compose up -d",
-    "docker:down": "sudo docker compose down"
+    "docker:down": "sudo docker compose down",
+    "docker:build": "sudo docker build -t instagram-api ."
   },
   "keywords": [
     "instagram",
