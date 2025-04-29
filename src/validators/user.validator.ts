@@ -33,7 +33,20 @@ const loginSchema = z.object({
     .min(1, { message: "password contain at least 1 character" }),
 });
 
+const passwordsSchema = z.object({
+  oldPassword: z.string({ message: "old password is required" }),
+  newPassword: z.string({ message: "new password is required" }),
+});
+
 type RegisterSchema = z.infer<typeof registerSchema>;
 type LoginSchema = z.infer<typeof loginSchema>;
+type PasswordSchema = z.infer<typeof passwordsSchema>;
 
-export { registerSchema, RegisterSchema, loginSchema, LoginSchema };
+export {
+  registerSchema,
+  RegisterSchema,
+  loginSchema,
+  LoginSchema,
+  passwordsSchema,
+  PasswordSchema,
+};

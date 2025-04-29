@@ -3,6 +3,8 @@ import { ApiRes } from "../utils/response.js";
 import { User } from "../models/user.model.js";
 import { asyncGuard } from "../utils/asyncGuard.js";
 import { uploadFileOneCloud } from "../helpers/cloudinary.helper.js";
+import { PasswordSchema } from "../validators/user.validator.js";
+import { decodePassword, hashPassword } from "../helpers/password.helper.js";
 
 const currentUser = asyncGuard(async (req, res) => {
   const _id = req.user?._id;
@@ -78,4 +80,30 @@ const updateAvatar = asyncGuard(async (req, res) => {
   return res.status(200).json(new ApiRes(200, "File uploaded", user?.avatar));
 });
 
-export { getUser, currentUser, getFollowers, getFollowing, updateAvatar };
+const changePassword = asyncGuard(async (req, res) => {
+  const _id = req.user?._id;
+  const { oldPassword, newPassword }: PasswordSchema = req.body;
+
+  const user = await User.findById(_id).select("+password -refreshToken");
+  if (!user) return res.status(404).json(new ApiRes(404, "User not found"));
+
+  const isPasswordCorrect = await decodePassword(user.password, oldPassword);
+
+  if (!isPasswordCorrect) {
+    return res.status(400).json(new ApiRes(400, "Password is Incorrect"));
+  }
+
+  const hash = await hashPassword(newPassword);
+  await User.findByIdAndUpdate(_id, { password: hash }, { new: true });
+
+  return res.status(200).json(new ApiRes(200, "Password changed Successfully"));
+});
+
+export {
+  getUser,
+  currentUser,
+  getFollowers,
+  getFollowing,
+  updateAvatar,
+  changePassword,
+};
