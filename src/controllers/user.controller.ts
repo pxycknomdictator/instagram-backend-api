@@ -3,7 +3,10 @@ import { AVATAR } from "../constant.js";
 import { ApiRes } from "../utils/response.js";
 import { User } from "../models/user.model.js";
 import { asyncGuard } from "../utils/asyncGuard.js";
-import { uploadFileOneCloud } from "../helpers/cloudinary.helper.js";
+import {
+  deleteFileFromCloud,
+  uploadFileOneCloud,
+} from "../helpers/cloudinary.helper.js";
 import { PasswordSchema } from "../validators/user.validator.js";
 import { decodePassword, hashPassword } from "../helpers/password.helper.js";
 
@@ -72,6 +75,13 @@ const updateAvatar = asyncGuard(async (req, res) => {
 
   if (!filePath) {
     return res.status(400).json(new ApiRes(400, "File is required"));
+  }
+
+  const user = await User.findById(_id);
+  if (!user) return res.status(404).json(new ApiRes(404, "User not found"));
+
+  if (user?.imagePublicId) {
+    await deleteFileFromCloud(user?.imagePublicId, user?.avatarType);
   }
 
   const { imagePublicId, link, fileType } = await uploadFileOneCloud(
