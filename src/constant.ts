@@ -29,7 +29,7 @@ const refresh_token = "refresh_token";
 const maxAge1 = 1000 * 60 * 60 * 24;
 const maxAge2 = 1000 * 60 * 60 * 24 * 7;
 const POSTS = "instagram-posts";
-const AVATAR = "avatar";
+const AVATAR = "instagram-avatar";
 
 export {
   configs,

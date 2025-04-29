@@ -1,4 +1,5 @@
 import { isValidObjectId } from "mongoose";
+import { User } from "../models/user.model.js";
 import { POSTS } from "../constant.js";
 import { ApiRes } from "../utils/response.js";
 import { Post } from "../models/post.model.js";
@@ -33,6 +34,11 @@ const createPost = asyncGuard(async (req, res) => {
   payload.postUrl = link;
 
   const post = await Post.create(payload);
+  await User.findByIdAndUpdate(
+    createdBy,
+    { $push: { posts: post._id } },
+    { new: true },
+  );
 
   if (!post) {
     return res.status(400).json(new ApiRes(400, "Failed to create post"));
