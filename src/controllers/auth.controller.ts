@@ -87,7 +87,7 @@ const logout = asyncGuard(async (req, res) => {
 
 const renewTokens = asyncGuard(async (req, res) => {
   const incomingRefreshToken =
-    req.body?.refresh_token || req.cookies?.access_token;
+    req.body?.refresh_token || req.cookies?.refresh_token;
 
   if (!incomingRefreshToken) {
     return res.status(401).json(new ApiRes(401, "Token is Required"));
