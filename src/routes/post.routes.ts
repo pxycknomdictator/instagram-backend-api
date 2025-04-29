@@ -7,6 +7,7 @@ import {
   createPost,
   deletePost,
   getPosts,
+  getPost,
 } from "../controllers/post.controller.js";
 
 const router = Router();
@@ -16,6 +17,6 @@ router
   .get(getPosts)
   .post(validateAuth, validate(postSchema), upload.single("post"), createPost);
 
-router.route("/:postId").delete(validateAuth, deletePost);
+router.route("/:postId").delete(validateAuth, deletePost).get(getPost);
 
 export default router;

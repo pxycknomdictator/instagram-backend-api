@@ -48,4 +48,15 @@ const deletePost = asyncGuard(async (req, res) => {
   return res.status(200).json(new ApiRes(200, "Post deleted"));
 });
 
-export { getPosts, createPost, deletePost };
+const getPost = asyncGuard(async (req, res) => {
+  const _id = req.params.postId;
+
+  if (!isValidObjectId(_id)) {
+    return res.status(400).json(new ApiRes(400, "Valid post id is required"));
+  }
+
+  const post = await Post.findById(_id);
+  return res.status(200).json(new ApiRes(200, "Post", post));
+});
+
+export { getPosts, createPost, deletePost, getPost };
