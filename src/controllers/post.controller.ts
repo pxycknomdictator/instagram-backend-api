@@ -5,8 +5,12 @@ import { Post } from "../models/post.model.js";
 import { asyncGuard } from "../utils/asyncGuard.js";
 import { uploadFileOneCloud } from "../helpers/cloudinary.helper.js";
 
-const getPosts = asyncGuard(async (_, res) => {
-  const posts = await Post.find();
+const getPosts = asyncGuard(async (req, res) => {
+  const limit = Math.min(parseInt(req.query.limit as string) || 10);
+  const skip = parseInt(req.query.skip as string) || 0;
+
+  const posts = await Post.find().skip(skip).limit(limit);
+
   return res.status(200).json(new ApiRes(200, "Posts", posts));
 });
 
