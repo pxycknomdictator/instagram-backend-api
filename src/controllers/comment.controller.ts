@@ -24,11 +24,19 @@ const createComment = asyncGuard(async (req, res) => {
 });
 
 const getComments = asyncGuard(async (req, res) => {
-  const limit = Math.min(parseInt(req.query.limit as string) || 10);
-  const skip = parseInt(req.query.skip as string) || 0;
+  const postId = req.query.postId as string;
 
-  const comments = await Comment.find().skip(skip).limit(limit);
-  return res.status(200).json(new ApiRes(200, "Comments", comments));
+  if (!isValidObjectId(postId)) {
+    return res.status(400).json(new ApiRes(400, "Invalid post ID"));
+  }
+
+  const post = await Post.findById(postId).populate("comments");
+
+  if (!post) {
+    return res.status(404).json(new ApiRes(404, "Post not found"));
+  }
+
+  return res.status(200).json(new ApiRes(200, "Comments", post.comments));
 });
 
 const deleteComment = asyncGuard(async (req, res) => {
