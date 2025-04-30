@@ -3,6 +3,7 @@ import { validateAuth } from "../middlewares/auth.middleware.js";
 import {
   changePassword,
   currentUser,
+  destroyAvatar,
   getFollowers,
   getFollowing,
   getUser,
@@ -18,12 +19,11 @@ router.get("/profile/:username", getUser);
 router.get("/:username/followers", validateAuth, getFollowers);
 router.get("/:username/following", validateAuth, getFollowing);
 router.get("/profile/current-user", validateAuth, currentUser);
-router.patch(
-  "/profile/avatar",
-  validateAuth,
-  upload.single("avatar"),
-  updateAvatar,
-);
+
+router
+  .route("/profile/avatar")
+  .patch(validateAuth, upload.single("avatar"), updateAvatar)
+  .delete(validateAuth, destroyAvatar);
 
 router.put(
   "/profile/change-password",

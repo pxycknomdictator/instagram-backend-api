@@ -102,6 +102,31 @@ const updateAvatar = asyncGuard(async (req, res) => {
   return res.status(200).json(new ApiRes(200, "Avatar uploaded"));
 });
 
+const destroyAvatar = asyncGuard(async (req, res) => {
+  const _id = req.user?._id;
+
+  if (!isValidObjectId(_id)) {
+    return res.status(400).json(new ApiRes(400, "valid id is required"));
+  }
+
+  const user = await User.findById(_id);
+  if (!user) return res.status(404).json(new ApiRes(404, "User not found"));
+
+  if (user.imagePublicId && user.avatarType) {
+    await deleteFileFromCloud(user.imagePublicId, user.avatarType);
+  }
+
+  await User.findByIdAndUpdate(
+    _id,
+    {
+      $unset: { avatar: 1, imagePublicId: 1, avatarType: 1 },
+    },
+    { new: true },
+  );
+
+  return res.status(200).json(new ApiRes(200, "Avatar is removed"));
+});
+
 const changePassword = asyncGuard(async (req, res) => {
   const _id = req.user?._id;
   const { oldPassword, newPassword }: PasswordSchema = req.body;
@@ -132,4 +157,5 @@ export {
   getFollowing,
   updateAvatar,
   changePassword,
+  destroyAvatar,
 };
