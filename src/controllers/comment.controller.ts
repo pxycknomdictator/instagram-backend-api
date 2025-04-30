@@ -31,4 +31,22 @@ const getComments = asyncGuard(async (req, res) => {
   return res.status(200).json(new ApiRes(200, "Comments", comments));
 });
 
-export { createComment, getComments };
+const deleteComment = asyncGuard(async (req, res) => {
+  const commentId = req.params.commentId;
+  const postId = req.query.postId;
+
+  if (!postId) {
+    return res.status(400).json(new ApiRes(400, "post id is required"));
+  }
+
+  if (!isValidObjectId(commentId)) {
+    return res.status(400).json(new ApiRes(400, "invalid comment id"));
+  }
+
+  await Post.findByIdAndUpdate(postId, { $pull: { comments: commentId } });
+  await Comment.findByIdAndDelete(commentId);
+
+  return res.status(200).json(new ApiRes(200, "comment deleted"));
+});
+
+export { createComment, getComments, deleteComment };
