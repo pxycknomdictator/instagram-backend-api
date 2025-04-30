@@ -57,4 +57,21 @@ const deleteComment = asyncGuard(async (req, res) => {
   return res.status(200).json(new ApiRes(200, "comment deleted"));
 });
 
-export { createComment, getComments, deleteComment };
+const updateComment = asyncGuard(async (req, res) => {
+  const commentId = req.params.commentId;
+  const { comment }: CommentSchema = req.body;
+
+  if (!isValidObjectId(commentId)) {
+    return res.status(400).json(new ApiRes(400, "invalid comment id"));
+  }
+
+  const updated = await Comment.findByIdAndUpdate(commentId, { comment });
+
+  if (!updated) {
+    return res.status(404).json(new ApiRes(404, "Comment not found"));
+  }
+
+  return res.status(200).json(new ApiRes(200, "Comment updated"));
+});
+
+export { createComment, getComments, deleteComment, updateComment };

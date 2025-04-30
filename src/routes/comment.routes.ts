@@ -6,15 +6,19 @@ import {
   createComment,
   deleteComment,
   getComments,
+  updateComment,
 } from "../controllers/comment.controller.js";
 
 const router = Router();
 
 router
   .route("/")
-  .post(validateAuth, validate(commentSchema), createComment)
-  .get(getComments);
+  .get(getComments)
+  .post(validateAuth, validate(commentSchema), createComment);
 
-router.route("/:commentId").delete(validateAuth, deleteComment);
+router
+  .route("/:commentId")
+  .delete(validateAuth, deleteComment)
+  .patch(validateAuth, validate(commentSchema), updateComment);
 
 export default router;
