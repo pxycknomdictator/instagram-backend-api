@@ -23,4 +23,12 @@ const createComment = asyncGuard(async (req, res) => {
   return res.status(201).json(new ApiRes(201, "Comment created"));
 });
 
-export { createComment };
+const getComments = asyncGuard(async (req, res) => {
+  const limit = Math.min(parseInt(req.query.limit as string) || 10);
+  const skip = parseInt(req.query.skip as string) || 0;
+
+  const comments = await Comment.find().skip(skip).limit(limit);
+  return res.status(200).json(new ApiRes(200, "Comments", comments));
+});
+
+export { createComment, getComments };
