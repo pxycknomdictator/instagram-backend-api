@@ -22,14 +22,11 @@ router.get("/profile/current-user", validateAuth, currentUser);
 
 router
   .route("/profile/avatar")
-  .patch(validateAuth, upload.single("avatar"), updateAvatar)
-  .delete(validateAuth, destroyAvatar);
+  .delete(validateAuth, destroyAvatar)
+  .patch(validateAuth, upload.single("avatar"), updateAvatar);
 
-router.put(
-  "/profile/change-password",
-  validateAuth,
-  validate(passwordsSchema),
-  changePassword,
-);
+router
+  .route("/profile/change-password")
+  .put(validateAuth, validate(passwordsSchema), changePassword);
 
 export default router;
