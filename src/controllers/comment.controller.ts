@@ -51,7 +51,12 @@ const deleteComment = asyncGuard(async (req, res) => {
     return res.status(400).json(new ApiRes(400, "invalid comment id"));
   }
 
-  await Post.findByIdAndUpdate(postId, { $pull: { comments: commentId } });
+  const post = await Post.findByIdAndUpdate(
+    postId,
+    { $pull: { comments: commentId } },
+    { new: true },
+  );
+
   await Comment.findByIdAndDelete(commentId);
 
   return res.status(200).json(new ApiRes(200, "comment deleted"));
