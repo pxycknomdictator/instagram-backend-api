@@ -38,18 +38,12 @@ const removeLike = asyncGuard(async (req, res) => {
   const post = await Post.findById(postId);
   if (!post) return res.status(404).json(new ApiRes(404, "Post not found"));
 
-  const result = await Post.updateOne(
+  await Post.updateOne(
     { $and: [{ _id: postId }, { likes: { $eq: _id } }] },
     { $pull: { likes: _id } },
   );
 
-  if (!result) {
-    return res
-      .status(400)
-      .json(new ApiRes(400, "Like not found or already removed"));
-  }
-
-  return res.status(201).json(new ApiRes(201, "Like removed successfully"));
+  return res.status(200).json(new ApiRes(200, "Like removed successfully"));
 });
 
 export { createLike, removeLike };
