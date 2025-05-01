@@ -87,8 +87,15 @@ const getPost = asyncGuard(async (req, res) => {
     return res.status(400).json(new ApiRes(400, "Valid post id is required"));
   }
 
-  const post = await Post.findById(_id);
-  return res.status(200).json(new ApiRes(200, "Post", post));
+  const post = await Post.findById(_id).populate("likes").populate("comments");
+  if (!post) return res.status(404).json(new ApiRes(404, "Post not found"));
+
+  const likes = post.likes.length;
+  const comments = post.comments || [];
+
+  return res
+    .status(200)
+    .json(new ApiRes(200, "Post", { post, likes, comments }));
 });
 
 export { getPosts, createPost, deletePost, getPost };
