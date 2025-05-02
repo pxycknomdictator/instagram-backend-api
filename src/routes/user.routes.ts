@@ -17,20 +17,22 @@ import { upload } from "../middlewares/multer.middleware.js";
 
 const router = Router();
 
-router.get("/profile/:username", validateAuth, getUser);
-router.get("/:username/followers", validateAuth, getFollowers);
-router.get("/:username/following", validateAuth, getFollowing);
-router.get("/profile/current-user", validateAuth, currentUser);
-router.post("/:userId/follow", validateAuth, followUser);
-router.delete("/:userId/unfollow", validateAuth, unfollowUser);
+router.use(validateAuth);
+
+router.get("/profile/:username", getUser);
+router.get("/:username/followers", getFollowers);
+router.get("/:username/following", getFollowing);
+router.get("/profile/current-user", currentUser);
+router.post("/:userId/follow", followUser);
+router.delete("/:userId/unfollow", unfollowUser);
 
 router
   .route("/profile/avatar")
-  .delete(validateAuth, destroyAvatar)
-  .patch(validateAuth, upload.single("avatar"), updateAvatar);
+  .delete(destroyAvatar)
+  .patch(upload.single("avatar"), updateAvatar);
 
 router
   .route("/profile/change-password")
-  .put(validateAuth, validate(passwordsSchema), changePassword);
+  .put(validate(passwordsSchema), changePassword);
 
 export default router;
