@@ -8,6 +8,7 @@ import {
   getFollowers,
   getFollowing,
   getUser,
+  unfollowUser,
   updateAvatar,
 } from "../controllers/user.controller.js";
 import { validate } from "../middlewares/validate.middleware.js";
@@ -21,6 +22,7 @@ router.get("/:username/followers", validateAuth, getFollowers);
 router.get("/:username/following", validateAuth, getFollowing);
 router.get("/profile/current-user", validateAuth, currentUser);
 router.post("/:userId/follow", validateAuth, followUser);
+router.delete("/:userId/unfollow", validateAuth, unfollowUser);
 
 router
   .route("/profile/avatar")

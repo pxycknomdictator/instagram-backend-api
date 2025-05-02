@@ -181,6 +181,32 @@ const followUser = asyncGuard(async (req, res) => {
   return res.status(201).json(new ApiRes(201, "Followed successfully"));
 });
 
+const unfollowUser = asyncGuard(async (req, res) => {
+  const targetUserId = req.params.userId;
+  const currentUserId = req.user?._id;
+
+  if (!isValidObjectId(targetUserId) || !isValidObjectId(currentUserId)) {
+    return res.status(400).json(new ApiRes(400, "Valid ID required"));
+  }
+
+  const targetUser = await User.findById(targetUserId);
+  if (!targetUser) {
+    return res.status(404).json(new ApiRes(404, "User not found"));
+  }
+
+  await User.updateOne(
+    { $and: [{ _id: targetUserId }, { followers: { $eq: currentUserId } }] },
+    { $pull: { followers: currentUserId } },
+  );
+
+  await User.updateOne(
+    { _id: currentUserId, following: targetUserId },
+    { $pull: { following: targetUserId } },
+  );
+
+  return res.status(200).json(new ApiRes(200, "Unfollowed successfully"));
+});
+
 export {
   getUser,
   currentUser,
@@ -190,4 +216,5 @@ export {
   changePassword,
   destroyAvatar,
   followUser,
+  unfollowUser,
 };
