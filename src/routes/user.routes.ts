@@ -15,7 +15,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 
 const router = Router();
 
-router.get("/profile/:username", getUser);
+router.get("/profile/:username", validateAuth, getUser);
 router.get("/:username/followers", validateAuth, getFollowers);
 router.get("/:username/following", validateAuth, getFollowing);
 router.get("/profile/current-user", validateAuth, currentUser);
