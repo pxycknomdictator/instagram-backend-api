@@ -150,6 +150,37 @@ const changePassword = asyncGuard(async (req, res) => {
   return res.status(200).json(new ApiRes(200, "Password changed Successfully"));
 });
 
+const followUser = asyncGuard(async (req, res) => {
+  const targetUserId = req.params.userId;
+  const currentUserId = req.user?._id;
+
+  if (!isValidObjectId(targetUserId) || !isValidObjectId(currentUserId)) {
+    return res.status(400).json(new ApiRes(400, "Valid ID required"));
+  }
+
+  const targetUser = await User.findById(targetUserId);
+
+  if (!targetUser) {
+    return res.status(404).json(new ApiRes(404, "User not found"));
+  }
+
+  const result = await User.updateOne(
+    { _id: targetUserId, followers: { $ne: currentUserId } },
+    { $addToSet: { followers: currentUserId } },
+  );
+
+  await User.updateOne(
+    { _id: currentUserId, following: { $ne: targetUserId } },
+    { $addToSet: { following: targetUserId } },
+  );
+
+  if (result.modifiedCount === 0) {
+    return res.status(200).json(new ApiRes(200, "Already following"));
+  }
+
+  return res.status(201).json(new ApiRes(201, "Followed successfully"));
+});
+
 export {
   getUser,
   currentUser,
@@ -158,4 +189,5 @@ export {
   updateAvatar,
   changePassword,
   destroyAvatar,
+  followUser,
 };

@@ -4,6 +4,7 @@ import {
   changePassword,
   currentUser,
   destroyAvatar,
+  followUser,
   getFollowers,
   getFollowing,
   getUser,
@@ -19,6 +20,7 @@ router.get("/profile/:username", validateAuth, getUser);
 router.get("/:username/followers", validateAuth, getFollowers);
 router.get("/:username/following", validateAuth, getFollowing);
 router.get("/profile/current-user", validateAuth, currentUser);
+router.post("/:userId/follow", validateAuth, followUser);
 
 router
   .route("/profile/avatar")
