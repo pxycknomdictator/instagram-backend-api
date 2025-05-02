@@ -10,5 +10,20 @@ services:
     volumes:
       - ./data:/data/db
 
+  instagram-backend:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 9999:9999
+    depends_on:
+      - mongodb
+    restart: always
+    networks:
+      - instagram-network
+    env_file:
+      - .env
+
 networks:
   instagram-network:
