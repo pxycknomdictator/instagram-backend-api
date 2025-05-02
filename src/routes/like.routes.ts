@@ -6,7 +6,9 @@ import { createLike, removeLike } from "../controllers/like.controller.js";
 
 const router = Router();
 
-router.post("/", validateAuth, validate(likeSchema), createLike);
-router.delete("/:postId", validateAuth, removeLike);
+router.use(validateAuth);
+
+router.post("/", validate(likeSchema), createLike);
+router.delete("/:postId", removeLike);
 
 export default router;
