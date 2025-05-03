@@ -8,6 +8,14 @@ cloudinary.config({
   api_secret: configs.CLOUDINARY_API_SECRET,
 });
 
+if (
+  !configs.CLOUDINARY_API_KEY ||
+  !configs.CLOUDINARY_API_SECRET ||
+  !configs.CLOUDINARY_CLOUD_NAME
+) {
+  throw new Error("Cloudinary api required for");
+}
+
 export const uploadFileOneCloud = async (
   filePath: string,
   whichFolder: string,
