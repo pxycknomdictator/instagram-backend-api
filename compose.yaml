@@ -12,9 +12,7 @@ services:
 
   instagram-backend:
     container_name: api
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: pxycknomdictator/instagram-backend
     ports:
       - 9999:9999
     depends_on:

@@ -14,7 +14,7 @@
     "docker:run": "node dist/main.js",
     "docker:up": "sudo docker compose up -d",
     "docker:down": "sudo docker compose down",
-    "docker:build": "sudo docker build -t instagram-backend ."
+    "docker:build": "sudo docker build -t pxycknomdictator/instagram-backend ."
   },
   "keywords": [
     "instagram",
