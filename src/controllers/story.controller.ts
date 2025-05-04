@@ -42,6 +42,7 @@ const uploadStory = asyncGuard(async (req, res) => {
 
 const deleteStory = asyncGuard(async (req, res) => {
   const _id = req.params.storyId;
+  const currentId = req.user?._id;
 
   if (!isValidObjectId(_id)) {
     return res.status(400).json(new ApiRes(400, "Valid Story id is required"));
@@ -53,6 +54,12 @@ const deleteStory = asyncGuard(async (req, res) => {
     return res.status(400).json(new ApiRes(400, "Story not found"));
   }
 
+  if (story.createdBy !== currentId) {
+    return res
+      .status(400)
+      .json(new ApiRes(400, "Not authorized to delete this story"));
+  }
+
   if (story.storyType && story.storyPublicId) {
     await deleteFileFromCloud(story.storyPublicId, story.storyType);
   }
@@ -62,4 +69,17 @@ const deleteStory = asyncGuard(async (req, res) => {
   return res.status(200).json(new ApiRes(200, "Story deleted"));
 });
 
-export { uploadStory, deleteStory };
+const getStory = asyncGuard(async (req, res) => {
+  const _id = req.params.storyId;
+
+  if (!isValidObjectId(_id)) {
+    return res.status(400).json(new ApiRes(400, "Valid Story id is required"));
+  }
+
+  const story = await Story.findById(_id);
+  if (!story) return res.status(404).json(new ApiRes(404, "Story not found"));
+
+  return res.status(200).json(new ApiRes(200, "story", story));
+});
+
+export { uploadStory, deleteStory, getStory };
