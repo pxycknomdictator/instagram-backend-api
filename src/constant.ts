@@ -30,6 +30,8 @@ const maxAge1 = 1000 * 60 * 60 * 24;
 const maxAge2 = 1000 * 60 * 60 * 24 * 7;
 const POSTS = "instagram-posts";
 const AVATAR = "instagram-avatar";
+const STORIES = "instagram-story";
+const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000;
 
 export {
   configs,
@@ -42,4 +44,6 @@ export {
   maxAge2,
   POSTS,
   AVATAR,
+  STORIES,
+  ONE_DAY_IN_MS,
 };

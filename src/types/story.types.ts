@@ -8,7 +8,7 @@ interface StorySchema extends Document {
   storyType: string;
   viewCount: number;
   viewBy: Schema.Types.ObjectId[];
-  captain?: string;
+  caption?: string;
   expiresAt: Date;
   createdAt: Date;
   updatedAt: Date;
