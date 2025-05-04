@@ -2,7 +2,11 @@ import { STORIES } from "../constant.js";
 import { ApiRes } from "../utils/response.js";
 import { Story } from "../models/story.model.js";
 import { asyncGuard } from "../utils/asyncGuard.js";
-import { uploadFileOneCloud } from "../helpers/cloudinary.helper.js";
+import {
+  deleteFileFromCloud,
+  uploadFileOneCloud,
+} from "../helpers/cloudinary.helper.js";
+import { isValidObjectId } from "mongoose";
 
 const uploadStory = asyncGuard(async (req, res) => {
   const createdBy = req.user?._id;
@@ -36,4 +40,26 @@ const uploadStory = asyncGuard(async (req, res) => {
   return res.status(201).json(new ApiRes(201, "uploaded story", story));
 });
 
-export { uploadStory };
+const deleteStory = asyncGuard(async (req, res) => {
+  const _id = req.params.storyId;
+
+  if (!isValidObjectId(_id)) {
+    return res.status(400).json(new ApiRes(400, "Valid Story id is required"));
+  }
+
+  const story = await Story.findById(_id);
+
+  if (!story) {
+    return res.status(400).json(new ApiRes(400, "Story not found"));
+  }
+
+  if (story.storyType && story.storyPublicId) {
+    await deleteFileFromCloud(story.storyPublicId, story.storyType);
+  }
+
+  await Story.findByIdAndDelete(_id);
+
+  return res.status(200).json(new ApiRes(200, "Story deleted"));
+});
+
+export { uploadStory, deleteStory };
