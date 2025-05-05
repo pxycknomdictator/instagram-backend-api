@@ -1,8 +1,8 @@
 import { isValidObjectId } from "mongoose";
-import { asyncGuard } from "../utils/asyncGuard.js";
 import { ApiRes } from "../utils/response.js";
-import { LikeSchema } from "../validators/like.validator.js";
 import { Post } from "../models/post.model.js";
+import { asyncGuard } from "../utils/asyncGuard.js";
+import { LikeSchema } from "../validators/like.validator.js";
 
 const createLike = asyncGuard(async (req, res) => {
   const _id = req.user?._id;

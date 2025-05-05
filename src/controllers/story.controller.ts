@@ -83,7 +83,27 @@ const getStory = asyncGuard(async (req, res) => {
 });
 
 const whoViewMyStory = asyncGuard(async (req, res) => {
-  return res.status(200).json(new ApiRes(200, "Story viewed"));
+  const currentId = req.user?._id;
+  const storyId = req.params.storyId;
+
+  if (!isValidObjectId(storyId)) {
+    return res.status(400).json(new ApiRes(400, "invalid story id"));
+  }
+
+  const story = await Story.findById(storyId);
+  if (!story) return res.status(404).json(new ApiRes(404, "Stroy not found"));
+
+  const result = await Story.updateOne(
+    { $and: [{ _id: storyId }, { viewBy: { $ne: currentId } }] },
+    { $addToSet: { viewBy: currentId }, $inc: { viewCount: 1 } },
+  );
+
+  if (result.modifiedCount === 0) {
+    return res.status(200).json(new ApiRes(200, "Already view"));
+  }
+
+  const updatedStory = await Story.findById(storyId).select("viewCount");
+  return res.status(200).json(new ApiRes(200, "Story viewed", updatedStory));
 });
 
 export { uploadStory, deleteStory, getStory, whoViewMyStory };
