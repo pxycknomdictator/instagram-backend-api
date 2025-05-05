@@ -106,4 +106,36 @@ const whoViewMyStory = asyncGuard(async (req, res) => {
   return res.status(200).json(new ApiRes(200, "Story viewed", updatedStory));
 });
 
-export { uploadStory, deleteStory, getStory, whoViewMyStory };
+const deleteMyAllStories = asyncGuard(async (req, res) => {
+  const owner = req.user?._id;
+
+  const stories = await Story.find({ createdBy: owner });
+
+  if (stories.length === 0) {
+    return res.status(404).json(new ApiRes(404, "No stories found"));
+  }
+
+  await Promise.all(
+    stories.map((story) => {
+      if (story.storyPublicId && story.storyType) {
+        return deleteFileFromCloud(story.storyPublicId, story.storyType);
+      }
+    }),
+  );
+
+  const result = await Story.deleteMany({ createdBy: owner });
+
+  if (!result.acknowledged) {
+    return res.status(500).json(new ApiRes(500, "Failed to delete stories"));
+  }
+
+  return res.status(200).json(new ApiRes(200, "Stories deleted"));
+});
+
+export {
+  uploadStory,
+  deleteStory,
+  getStory,
+  whoViewMyStory,
+  deleteMyAllStories,
+};

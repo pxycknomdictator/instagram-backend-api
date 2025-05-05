@@ -4,6 +4,7 @@ import { storySchema } from "../validators/story.validator.js";
 import { validateAuth } from "../middlewares/auth.middleware.js";
 import { validate } from "../middlewares/validate.middleware.js";
 import {
+  deleteMyAllStories,
   deleteStory,
   getStory,
   uploadStory,
@@ -16,6 +17,7 @@ router.use(validateAuth);
 
 router
   .route("/")
+  .delete(deleteMyAllStories)
   .post(validate(storySchema), upload.single("story"), uploadStory);
 
 router.route("/:storyId/view").patch(whoViewMyStory);
