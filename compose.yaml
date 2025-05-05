@@ -12,7 +12,7 @@ services:
 
   instagram-backend:
     container_name: api
-    image: pxycknomdictator/instagram-backend:v1
+    image: pxycknomdictator/instagram-backend:v2
     ports:
       - 9999:9999
     depends_on:
