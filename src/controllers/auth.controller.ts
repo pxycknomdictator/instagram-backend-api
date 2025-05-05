@@ -150,15 +150,13 @@ const deleteAccount = asyncGuard(async (req, res) => {
 
   const posts = await Post.find({ createdBy: _id });
 
-  for (const post of posts) {
-    if (post.postPublicId && post.postType) {
-      try {
-        await deleteFileFromCloud(post.postPublicId, post.postType);
-      } catch (err) {
-        console.warn("Posts deletion failed:", err);
+  await Promise.all(
+    posts.map((post) => {
+      if (post.postPublicId && post.postType) {
+        return deleteFileFromCloud(post.postPublicId, post.postType);
       }
-    }
-  }
+    }),
+  );
 
   await Post.deleteMany({ createdBy: _id });
   await User.findByIdAndDelete(_id);
