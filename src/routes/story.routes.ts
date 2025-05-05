@@ -7,6 +7,7 @@ import {
   deleteStory,
   getStory,
   uploadStory,
+  whoViewMyStory,
 } from "../controllers/story.controller.js";
 
 const router = Router();
@@ -17,6 +18,7 @@ router
   .route("/")
   .post(validate(storySchema), upload.single("story"), uploadStory);
 
+router.route("/:storyId/view").patch(whoViewMyStory);
 router.route("/:storyId").delete(deleteStory).get(getStory);
 
 export default router;

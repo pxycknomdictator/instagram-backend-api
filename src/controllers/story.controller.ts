@@ -1,3 +1,4 @@
+import { isValidObjectId } from "mongoose";
 import { STORIES } from "../constant.js";
 import { ApiRes } from "../utils/response.js";
 import { Story } from "../models/story.model.js";
@@ -6,7 +7,6 @@ import {
   deleteFileFromCloud,
   uploadFileOneCloud,
 } from "../helpers/cloudinary.helper.js";
-import { isValidObjectId } from "mongoose";
 
 const uploadStory = asyncGuard(async (req, res) => {
   const createdBy = req.user?._id;
@@ -82,4 +82,8 @@ const getStory = asyncGuard(async (req, res) => {
   return res.status(200).json(new ApiRes(200, "story", story));
 });
 
-export { uploadStory, deleteStory, getStory };
+const whoViewMyStory = asyncGuard(async (req, res) => {
+  return res.status(200).json(new ApiRes(200, "Story viewed"));
+});
+
+export { uploadStory, deleteStory, getStory, whoViewMyStory };

@@ -1,5 +1,8 @@
 import { Router } from "express";
 import { validateAuth } from "../middlewares/auth.middleware.js";
+import { validate } from "../middlewares/validate.middleware.js";
+import { passwordsSchema } from "../validators/user.validator.js";
+import { upload } from "../middlewares/multer.middleware.js";
 import {
   changePassword,
   currentUser,
@@ -11,9 +14,6 @@ import {
   unfollowUser,
   updateAvatar,
 } from "../controllers/user.controller.js";
-import { validate } from "../middlewares/validate.middleware.js";
-import { passwordsSchema } from "../validators/user.validator.js";
-import { upload } from "../middlewares/multer.middleware.js";
 
 const router = Router();
 
