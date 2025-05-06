@@ -32,6 +32,7 @@ const POSTS = "instagram-posts";
 const AVATAR = "instagram-avatar";
 const STORIES = "instagram-story";
 const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000;
+const cronStoryExpression = "0 * * * *";
 
 export {
   configs,
@@ -46,4 +47,5 @@ export {
   AVATAR,
   STORIES,
   ONE_DAY_IN_MS,
+  cronStoryExpression,
 };
