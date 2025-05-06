@@ -15,4 +15,7 @@ const passwordReset = new Schema<PasswordReset>(
   { timestamps: true },
 );
 
-export const Reset = model<PasswordReset>("Reset", passwordReset);
+export const ResetPassword = model<PasswordReset>(
+  "ResetPassword",
+  passwordReset,
+);
