@@ -38,9 +38,18 @@ const passwordsSchema = z.object({
   newPassword: z.string({ message: "new password is required" }),
 });
 
-type RegisterSchema = z.infer<typeof registerSchema>;
+const settingsSchema = z
+  .object({
+    website: z.string(),
+    bio: z.string(),
+    gender: z.string(),
+  })
+  .optional();
+
 type LoginSchema = z.infer<typeof loginSchema>;
+type RegisterSchema = z.infer<typeof registerSchema>;
 type PasswordSchema = z.infer<typeof passwordsSchema>;
+type SettingsSchema = z.infer<typeof settingsSchema>;
 
 export {
   registerSchema,
@@ -49,4 +58,6 @@ export {
   LoginSchema,
   passwordsSchema,
   PasswordSchema,
+  settingsSchema,
+  SettingsSchema,
 };
