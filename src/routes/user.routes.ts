@@ -1,10 +1,14 @@
 import { Router } from "express";
 import { validateAuth } from "../middlewares/auth.middleware.js";
 import { validate } from "../middlewares/validate.middleware.js";
-import { passwordsSchema } from "../validators/user.validator.js";
+import {
+  passwordsSchema,
+  settingsSchema,
+} from "../validators/user.validator.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import {
   changePassword,
+  changeSettings,
   currentUser,
   destroyAvatar,
   followUser,
@@ -20,11 +24,12 @@ const router = Router();
 router.use(validateAuth);
 
 router.get("/profile/:username", getUser);
-router.get("/:username/followers", getFollowers);
-router.get("/:username/following", getFollowing);
-router.get("/profile/current-user", currentUser);
 router.post("/:userId/follow", followUser);
 router.delete("/:userId/unfollow", unfollowUser);
+router.get("/:username/following", getFollowing);
+router.get("/:username/followers", getFollowers);
+router.get("/profile/current-user", currentUser);
+router.patch("/account/edit", validate(settingsSchema), changeSettings);
 
 router
   .route("/profile/avatar")

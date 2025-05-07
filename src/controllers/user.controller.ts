@@ -207,6 +207,30 @@ const unfollowUser = asyncGuard(async (req, res) => {
   return res.status(200).json(new ApiRes(200, "Unfollowed successfully"));
 });
 
+const changeSettings = asyncGuard(async (req, res) => {
+  const body = req.body;
+  const currentUser = req.user?._id;
+
+  if (Object.keys(body).length === 0) {
+    return res
+      .status(400)
+      .json(new ApiRes(400, "At least 01 field is required"));
+  }
+
+  if (!isValidObjectId(currentUser)) {
+    return res.status(400).json(new ApiRes(400, "invalid user id"));
+  }
+
+  const user = await User.findById(currentUser);
+  if (!user) return res.status(404).json(new ApiRes(404, "No user found"));
+
+  const updatedUser = await User.findByIdAndUpdate(currentUser, body, {
+    new: true,
+  });
+
+  return res.status(200).json(new ApiRes(200, "settings changed", updatedUser));
+});
+
 export {
   getUser,
   currentUser,
@@ -217,4 +241,5 @@ export {
   destroyAvatar,
   followUser,
   unfollowUser,
+  changeSettings,
 };
