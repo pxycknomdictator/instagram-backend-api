@@ -164,4 +164,8 @@ const deleteAccount = asyncGuard(async (req, res) => {
   return res.status(200).json(new ApiRes(200, "Account deleted 😢"));
 });
 
-export { register, login, logout, renewTokens, deleteAccount };
+const forgotPassword = asyncGuard(async (req, res) => {
+  return res.status(200).send("<h1>Reset link sent to your email</h1>");
+});
+
+export { register, login, logout, renewTokens, deleteAccount, forgotPassword };
