@@ -9,7 +9,7 @@ export const errorHandler = (
   _next: NextFunction,
 ) => {
   const message = error.message || "Something went wrong";
-  const statusCode = 5000;
+  const statusCode = 500;
   const stack = configs.NODE_ENV !== "production" ? error.stack : null;
 
   res.status(statusCode).json(new ApiRes(statusCode, message, stack));
