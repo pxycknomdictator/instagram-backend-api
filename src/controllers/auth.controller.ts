@@ -17,6 +17,7 @@ import {
 import { deleteFileFromCloud } from "../helpers/cloudinary.helper.js";
 import { generateSecureValidationCode } from "../utils/validation-code.js";
 import { removeTokensInCookies, setTokensInCookies } from "../utils/cookies.js";
+import { ResetPassword } from "../models/password-reset.model.js";
 
 const register = asyncGuard(async (req, res) => {
   // Don't worry bro you used middleware for body testing
@@ -176,6 +177,7 @@ const forgotPassword = asyncGuard(async (req, res) => {
   if (!user) return res.status(404).json(new ApiRes(404, "No user found"));
 
   const code = generateSecureValidationCode();
+  await ResetPassword.create({ userId: user._id, passwordResetCode: code });
 
   // send email logic
 
