@@ -10,6 +10,7 @@ const configs = Object.freeze({
   CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+  RESEND_API_KEY: process.env.RESEND_API_KEY,
   CLIENT_ORIGIN: process.env.CLIENT_ORIGIN || "http://localhost:5173",
 });
 
