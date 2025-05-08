@@ -9,9 +9,14 @@ import { asyncGuard } from "../utils/asyncGuard.js";
 import { tokensGenerator } from "../helpers/token.helper.js";
 import { DecodedTokenPayload, UserInfo } from "../types/token.types.js";
 import { decodePassword, hashPassword } from "../helpers/password.helper.js";
-import { LoginSchema, RegisterSchema } from "../validators/user.validator.js";
-import { removeTokensInCookies, setTokensInCookies } from "../utils/cookies.js";
+import {
+  ForgotSchema,
+  LoginSchema,
+  RegisterSchema,
+} from "../validators/user.validator.js";
 import { deleteFileFromCloud } from "../helpers/cloudinary.helper.js";
+import { generateSecureValidationCode } from "../utils/validation-code.js";
+import { removeTokensInCookies, setTokensInCookies } from "../utils/cookies.js";
 
 const register = asyncGuard(async (req, res) => {
   // Don't worry bro you used middleware for body testing
@@ -165,7 +170,16 @@ const deleteAccount = asyncGuard(async (req, res) => {
 });
 
 const forgotPassword = asyncGuard(async (req, res) => {
-  return res.status(200).send("<h1>Reset link sent to your email</h1>");
+  const { email } = req.body as ForgotSchema;
+
+  const user = await User.findOne({ email }).select("-password -refreshToken");
+  if (!user) return res.status(404).json(new ApiRes(404, "No user found"));
+
+  const code = generateSecureValidationCode();
+
+  // send email logic
+
+  return res.status(200).json(new ApiRes(200, "code send to your email", code));
 });
 
 export { register, login, logout, renewTokens, deleteAccount, forgotPassword };
