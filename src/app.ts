@@ -14,8 +14,12 @@ import { errorHandler } from "./utils/error.js";
 const app = express();
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
+const templateLocation = path.resolve(__dirname, "..", "views");
 const staticFileLocation = path.resolve(__dirname, "..", "public");
 const tempFileLocation = path.resolve(__dirname, "..", "public", "temp");
+
+app.set("view engine", "ejs");
+app.set("views", templateLocation);
 
 app.use(helmet());
 app.use(morgan("dev"));
