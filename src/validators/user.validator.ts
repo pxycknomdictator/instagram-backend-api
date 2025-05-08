@@ -46,7 +46,7 @@ const settingsSchema = z
   })
   .optional();
 
-const resetSchema = z.object({
+const forgotSchema = z.object({
   email: z.string({ message: "email is required" }),
 });
 
@@ -54,7 +54,7 @@ type LoginSchema = z.infer<typeof loginSchema>;
 type RegisterSchema = z.infer<typeof registerSchema>;
 type PasswordSchema = z.infer<typeof passwordsSchema>;
 type SettingsSchema = z.infer<typeof settingsSchema>;
-type ResetSchema = z.infer<typeof resetSchema>;
+type ForgotSchema = z.infer<typeof forgotSchema>;
 
 export {
   registerSchema,
@@ -65,6 +65,6 @@ export {
   PasswordSchema,
   settingsSchema,
   SettingsSchema,
-  resetSchema,
-  ResetSchema,
+  forgotSchema,
+  ForgotSchema,
 };
