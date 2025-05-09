@@ -43,7 +43,6 @@ import likeRouter from "./routes/like.routes.js";
 import storyRouter from "./routes/story.routes.js";
 import healthRouter from "./routes/health.routes.js";
 import commentRouter from "./routes/comment.routes.js";
-import { mjmlToHtmlConverter } from "./utils/htmlConverter.js";
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/posts", postRouter);

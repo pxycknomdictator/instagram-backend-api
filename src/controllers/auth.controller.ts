@@ -18,6 +18,8 @@ import { deleteFileFromCloud } from "../helpers/cloudinary.helper.js";
 import { generateSecureValidationCode } from "../utils/validation-code.js";
 import { removeTokensInCookies, setTokensInCookies } from "../utils/cookies.js";
 import { ResetPassword } from "../models/password-reset.model.js";
+import { sendEmail } from "../helpers/email.helper.js";
+import { mjmlToHtmlConverter } from "../utils/htmlConverter.js";
 
 const register = asyncGuard(async (req, res) => {
   // Don't worry bro you used middleware for body testing
@@ -180,8 +182,13 @@ const forgotPassword = asyncGuard(async (req, res) => {
   await ResetPassword.create({ userId: user._id, passwordResetCode: code });
 
   // send email logic
+  const link = `http://localhost:${configs.PORT}/api/v1/reset-password?token=${code}`;
+  const htmlContent = mjmlToHtmlConverter(user.name, link);
+  await sendEmail({ to: user.email, htmlContent });
 
-  return res.status(200).json(new ApiRes(200, "code send to your email", code));
+  return res
+    .status(200)
+    .send("<h1>Verification code sended to your email</h1>");
 });
 
 export { register, login, logout, renewTokens, deleteAccount, forgotPassword };

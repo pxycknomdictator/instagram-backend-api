@@ -5,7 +5,7 @@ import { PasswordReset } from "../types/reset-password.types.js";
 const passwordReset = new Schema<PasswordReset>(
   {
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    passwordResetCode: { type: String, required: true },
+    passwordResetCode: { type: Number, required: true },
     expireAt: {
       type: Date,
       default: () => new Date(Date.now() + 5 * ONE_MINUTE_IN_MS),
