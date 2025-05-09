@@ -182,7 +182,7 @@ const forgotPassword = asyncGuard(async (req, res) => {
   await ResetPassword.create({ userId: user._id, passwordResetCode: code });
 
   // send email logic
-  const link = `http://localhost:${configs.PORT}/api/v1/reset-password?token=${code}`;
+  const link = `http://localhost:${configs.PORT}/api/v1/auth/account/reset-password-form?token=${code}`;
   const htmlContent = mjmlToHtmlConverter(user.name, link);
   await sendEmail({ to: user.email, htmlContent });
 
@@ -190,5 +190,32 @@ const forgotPassword = asyncGuard(async (req, res) => {
     .status(200)
     .send("<h1>Verification code sended to your email</h1>");
 });
+const resetPasswordForm = asyncGuard(async (req, res) => {
+  const { token } = req.query;
 
-export { register, login, logout, renewTokens, deleteAccount, forgotPassword };
+  if (!token || typeof token !== "string") {
+    return res.status(400).json(new ApiRes(400, "Invalid or missing token"));
+  }
+
+  const resetEntry = await ResetPassword.findOne({ passwordResetCode: token });
+
+  if (!resetEntry) {
+    return res.status(404).json(new ApiRes(404, "Verification code not found"));
+  }
+
+  if (!resetEntry.expireAt || resetEntry.expireAt <= new Date()) {
+    return res.status(400).json(new ApiRes(400, "Token has expired"));
+  }
+
+  return res.status(200).render("reset-password");
+});
+
+export {
+  register,
+  login,
+  logout,
+  renewTokens,
+  deleteAccount,
+  forgotPassword,
+  resetPasswordForm,
+};
