@@ -27,10 +27,8 @@ router.post("/signup", validate(registerSchema), register);
 router.delete("/account/delete", validateAuth, deleteAccount);
 router.get("/account/reset-password-form", resetPasswordForm);
 router.post("/account/forgot-password", validate(forgotSchema), forgotPassword);
-router.post(
-  "/account/reset-password",
-  validate(resetPasswordSchema),
-  resetPassword,
-);
+router
+  .route("/account/reset-password")
+  .post(validate(resetPasswordSchema), resetPassword);
 
 export default router;
