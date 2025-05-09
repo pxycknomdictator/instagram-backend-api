@@ -13,6 +13,7 @@ import {
   ForgotSchema,
   LoginSchema,
   RegisterSchema,
+  ResetPasswordSchema,
 } from "../validators/user.validator.js";
 import { deleteFileFromCloud } from "../helpers/cloudinary.helper.js";
 import { generateSecureValidationCode } from "../utils/validation-code.js";
@@ -190,6 +191,7 @@ const forgotPassword = asyncGuard(async (req, res) => {
     .status(200)
     .send("<h1>Verification code sended to your email</h1>");
 });
+
 const resetPasswordForm = asyncGuard(async (req, res) => {
   const { token } = req.query;
 
@@ -197,7 +199,9 @@ const resetPasswordForm = asyncGuard(async (req, res) => {
     return res.status(400).json(new ApiRes(400, "Invalid or missing token"));
   }
 
-  const resetEntry = await ResetPassword.findOne({ passwordResetCode: token });
+  const resetEntry = await ResetPassword.findOne({
+    passwordResetCode: token,
+  }).populate("userId");
 
   if (!resetEntry) {
     return res.status(404).json(new ApiRes(404, "Verification code not found"));
@@ -207,7 +211,22 @@ const resetPasswordForm = asyncGuard(async (req, res) => {
     return res.status(400).json(new ApiRes(400, "Token has expired"));
   }
 
-  return res.status(200).render("reset-password");
+  return res.status(200).render("reset-password", { name: resetEntry });
+});
+
+const resetPassword = asyncGuard(async (req, res) => {
+  const { password, username } = req.body as ResetPasswordSchema;
+
+  const user = await User.findOne({ username }).select(
+    "-password -refreshToken",
+  );
+
+  if (!user) return res.status(404).json(new ApiRes(404, "User not found"));
+
+  const hash = await hashPassword(password);
+  await User.findOneAndUpdate({ username }, { password: hash }, { new: true });
+
+  return res.status(200).json(new ApiRes(200, "Password changed"));
 });
 
 export {
@@ -218,4 +237,5 @@ export {
   deleteAccount,
   forgotPassword,
   resetPasswordForm,
+  resetPassword,
 };

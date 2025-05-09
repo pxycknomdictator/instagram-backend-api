@@ -38,6 +38,17 @@ const passwordsSchema = z.object({
   newPassword: z.string({ message: "new password is required" }),
 });
 
+const resetPasswordSchema = z
+  .object({
+    password: z.string({ message: "Password is required" }),
+    confirmPassword: z.string({ message: "Confirm password is required" }),
+    username: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
 const settingsSchema = z
   .object({
     website: z.string(),
@@ -55,6 +66,7 @@ type RegisterSchema = z.infer<typeof registerSchema>;
 type PasswordSchema = z.infer<typeof passwordsSchema>;
 type SettingsSchema = z.infer<typeof settingsSchema>;
 type ForgotSchema = z.infer<typeof forgotSchema>;
+type ResetPasswordSchema = z.infer<typeof resetPasswordSchema>;
 
 export {
   registerSchema,
@@ -67,4 +79,6 @@ export {
   SettingsSchema,
   forgotSchema,
   ForgotSchema,
+  resetPasswordSchema,
+  ResetPasswordSchema,
 };

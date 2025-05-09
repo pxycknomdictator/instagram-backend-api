@@ -5,6 +5,7 @@ import {
   loginSchema,
   registerSchema,
   forgotSchema,
+  resetPasswordSchema,
 } from "../validators/user.validator.js";
 import {
   register,
@@ -14,6 +15,7 @@ import {
   deleteAccount,
   forgotPassword,
   resetPasswordForm,
+  resetPassword,
 } from "../controllers/auth.controller.js";
 
 const router = Router();
@@ -23,7 +25,12 @@ router.get("/logout", validateAuth, logout);
 router.post("/login", validate(loginSchema), login);
 router.post("/signup", validate(registerSchema), register);
 router.delete("/account/delete", validateAuth, deleteAccount);
-router.post("/account/forgot-password", validate(forgotSchema), forgotPassword);
 router.get("/account/reset-password-form", resetPasswordForm);
+router.post("/account/forgot-password", validate(forgotSchema), forgotPassword);
+router.post(
+  "/account/reset-password",
+  validate(resetPasswordSchema),
+  resetPassword,
+);
 
 export default router;
