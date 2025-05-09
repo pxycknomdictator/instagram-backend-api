@@ -204,7 +204,9 @@ const resetPasswordForm = asyncGuard(async (req, res) => {
   }).populate("userId");
 
   if (!resetEntry) {
-    return res.status(404).json(new ApiRes(404, "Verification code not found"));
+    return res
+      .status(404)
+      .json(new ApiRes(404, "Verification code not found or expired"));
   }
 
   if (!resetEntry.expireAt || resetEntry.expireAt <= new Date()) {
