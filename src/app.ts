@@ -1,9 +1,6 @@
-import fs from "node:fs";
 import url from "node:url";
 import path from "node:path";
 
-import mjml2html from "mjml";
-import ejs from "ejs";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
