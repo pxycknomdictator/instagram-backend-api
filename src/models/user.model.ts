@@ -6,6 +6,7 @@ const userSchema = new Schema<UserSchema>(
     username: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true, trim: true },
+    verifiedUser: { type: Boolean, required: false, default: false },
     password: { type: String, required: true, minlength: 8, select: false },
     avatar: { type: String, default: "", required: false },
     bio: { type: String, minlength: 20, required: false },

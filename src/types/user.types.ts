@@ -12,6 +12,7 @@ interface UserSchema extends Document {
   name: string;
   email: string;
   password: string;
+  verifiedUser: boolean;
   avatar: string;
   website: string;
   imagePublicId: string;
