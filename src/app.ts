@@ -23,6 +23,12 @@ const emailLocation = path.resolve(
   "emails",
   "reset-password.mjml",
 );
+const verifyEmailLocation = path.resolve(
+  __dirname,
+  "..",
+  "emails",
+  "verify-email.mjml",
+);
 
 app.set("view engine", "ejs");
 app.set("views", templateLocation);
@@ -54,4 +60,4 @@ app.use("/api/v1/comments", commentRouter);
 
 app.use(errorHandler);
 
-export { app, tempFileLocation, emailLocation };
+export { app, tempFileLocation, emailLocation, verifyEmailLocation };
