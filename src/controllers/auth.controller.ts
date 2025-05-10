@@ -192,7 +192,7 @@ const forgotPassword = asyncGuard(async (req, res) => {
 
   return res
     .status(200)
-    .send("<h1>Verification code sended to your email</h1>");
+    .json(new ApiRes(200, "Verification code sent to your email"));
 });
 
 const resetPasswordForm = asyncGuard(async (req, res) => {
@@ -249,7 +249,29 @@ const verifyEmail = asyncGuard(async (req, res) => {
 
   return res
     .status(200)
-    .send("<h1>Verification code sended to your email</h1>");
+    .json(new ApiRes(200, "Verification code sent to your email"));
+});
+
+const getVerified = asyncGuard(async (req, res) => {
+  const token = req.query.token;
+  if (!token) return res.status(400).json(new ApiRes(400, "Token is required"));
+
+  const code = await ResetPassword.findOne({ passwordResetCode: token });
+  if (!code) return res.status(404).json(new ApiRes(404, "Token is Expired"));
+
+  if (!code.expireAt || code.expireAt <= new Date()) {
+    return res.status(400).json(new ApiRes(400, "Token has expired"));
+  }
+
+  const user = await User.findByIdAndUpdate(
+    code.userId,
+    { verifiedUser: true },
+    { new: true },
+  );
+
+  await ResetPassword.findOneAndDelete({ passwordResetCode: token });
+
+  return res.status(200).json(new ApiRes(200, `${user?.username} is Verified`));
 });
 
 export {
@@ -262,4 +284,5 @@ export {
   resetPasswordForm,
   resetPassword,
   verifyEmail,
+  getVerified,
 };
