@@ -74,3 +74,27 @@ This document outlines the API routes for a web application built with Express.j
 - **PATCH /api/v1/profile/avatar**: Update user avatar (single file upload: "avatar")
 - **DELETE /api/v1/profile/avatar**: Delete user avatar
 - **PUT /api/v1/profile/change-password**: Change user password (validated with passwordsSchema)
+
+## Docker Compose Setup
+
+This project includes a Docker Compose configuration to simplify the setup and deployment of the application and its dependencies.
+
+### Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed on your machine
+- [Docker Compose](https://docs.docker.com/compose/install/) installed
+
+### Configuration
+
+The `compose.yml` file defines the services required to run the application, including:
+
+- **Application Service**: Runs the Express.js application
+- **Database Service**: Configures a database (e.g., MongoDB) for persistent storage
+
+### Getting Started
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/pxycknomdictator/instagram-backend-api.git
+   cd instagram-backend-api
+   ```
