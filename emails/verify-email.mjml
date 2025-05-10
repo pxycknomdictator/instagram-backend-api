@@ -56,6 +56,18 @@
           <%= code %>
         </mj-text>
 
+        <!-- 5-minute expiry note -->
+        <mj-text
+          font-size="14px"
+          color="#9ca3af"
+          line-height="22px"
+          padding-top="12px"
+          padding-bottom="24px"
+          align="center"
+        >
+          This code and verification link will expire in 5 minutes.
+        </mj-text>
+
         <mj-spacer height="24px" />
 
         <mj-text
@@ -109,7 +121,7 @@
           line-height="20px"
           align="center"
         >
-          © 2025 ThapaTechnical. All rights reserved.
+          © 2025 Noman. All rights reserved.
         </mj-text>
         <mj-text
           css-class="footer-text"
@@ -119,7 +131,7 @@
           align="center"
           padding-top="8px"
         >
-          Pune, India
+          Karachi, Pakistan
         </mj-text>
 
         <mj-text
