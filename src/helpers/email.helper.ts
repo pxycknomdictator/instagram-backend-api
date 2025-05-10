@@ -6,13 +6,14 @@ const resend = new Resend(configs.RESEND_API_KEY);
 interface SendEmailProps {
   to: string;
   htmlContent: string;
+  subject: string;
 }
 
-export async function sendEmail({ to, htmlContent }: SendEmailProps) {
+export async function sendEmail({ to, htmlContent, subject }: SendEmailProps) {
   const { data, error } = await resend.emails.send({
     from: "Acme <onboarding@resend.dev>",
     to,
-    subject: "Reset Password",
+    subject,
     html: htmlContent,
   });
 

@@ -12,9 +12,9 @@ export function mjmlToHtmlConverter(name: string, link: string) {
   return html;
 }
 
-export function emailVerificationMjml2Html(code: string) {
+export function emailVerificationMjml2Html(code: number, link: string) {
   const mjmlTemplate = fs.readFileSync(verifyEmailLocation, "utf-8");
-  const renderedMjml = ejs.render(mjmlTemplate, { code });
+  const renderedMjml = ejs.render(mjmlTemplate, { code, link });
 
   const { html } = mjml2html(renderedMjml);
   return html;

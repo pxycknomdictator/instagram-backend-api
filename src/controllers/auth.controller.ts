@@ -20,7 +20,10 @@ import { generateSecureValidationCode } from "../utils/validation-code.js";
 import { removeTokensInCookies, setTokensInCookies } from "../utils/cookies.js";
 import { ResetPassword } from "../models/password-reset.model.js";
 import { sendEmail } from "../helpers/email.helper.js";
-import { mjmlToHtmlConverter } from "../utils/htmlConverter.js";
+import {
+  emailVerificationMjml2Html,
+  mjmlToHtmlConverter,
+} from "../utils/htmlConverter.js";
 
 const register = asyncGuard(async (req, res) => {
   // Don't worry bro you used middleware for body testing
@@ -185,7 +188,7 @@ const forgotPassword = asyncGuard(async (req, res) => {
   // send email logic
   const link = `http://localhost:${configs.PORT}/api/v1/auth/account/reset-password-form?token=${code}`;
   const htmlContent = mjmlToHtmlConverter(user.name, link);
-  await sendEmail({ to: user.email, htmlContent });
+  await sendEmail({ to: user.email, htmlContent, subject: "Reset Password" });
 
   return res
     .status(200)
@@ -231,6 +234,24 @@ const resetPassword = asyncGuard(async (req, res) => {
   return res.status(200).json(new ApiRes(200, "Password changed"));
 });
 
+const verifyEmail = asyncGuard(async (req, res) => {
+  const email = req.user?.email;
+
+  const user = await User.findOne({ email }).select("-password -refreshToken");
+  if (!user) return res.status(404).json(new ApiRes(404, "No user found"));
+
+  const code = generateSecureValidationCode();
+  await ResetPassword.create({ userId: user._id, passwordResetCode: code });
+
+  const link = `http://localhost:${configs.PORT}/api/v1/auth/account/verify-email?token=${code}`;
+  const htmlContent = emailVerificationMjml2Html(code, link);
+  await sendEmail({ to: user.email, htmlContent, subject: "Verify Email" });
+
+  return res
+    .status(200)
+    .send("<h1>Verification code sended to your email</h1>");
+});
+
 export {
   register,
   login,
@@ -240,4 +261,5 @@ export {
   forgotPassword,
   resetPasswordForm,
   resetPassword,
+  verifyEmail,
 };

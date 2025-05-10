@@ -16,6 +16,7 @@ import {
   forgotPassword,
   resetPasswordForm,
   resetPassword,
+  verifyEmail,
 } from "../controllers/auth.controller.js";
 
 const router = Router();
@@ -27,6 +28,8 @@ router.post("/signup", validate(registerSchema), register);
 router.delete("/account/delete", validateAuth, deleteAccount);
 router.get("/account/reset-password-form", resetPasswordForm);
 router.post("/account/forgot-password", validate(forgotSchema), forgotPassword);
+router.route("/account/verify-email").post(validateAuth, verifyEmail);
+
 router
   .route("/account/reset-password")
   .post(validate(resetPasswordSchema), resetPassword);
