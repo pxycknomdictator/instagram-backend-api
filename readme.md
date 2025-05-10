@@ -1,6 +1,22 @@
-# API Routes Documentation
+<div align="center">
+  <img src="https://camo.githubusercontent.com/86f61f7d4367c71a580e11af0bcd4f333d1b967225a679a12998657db1307dd3/68747470733a2f2f692e636c6f756475702e636f6d2f7a6659366c4c376546612d3330303078333030302e706e67" alt="Express.js Logo" width="300"/>
+</div>
 
-This document outlines the API routes for a web application, all starting from the base path `http://localhost:<port>/api/v1`.
+<div align="center">
+
+[![NPM Version](https://img.shields.io/npm/v/express.svg)](https://www.npmjs.com/package/express)
+[![GitHub Stars](https://img.shields.io/github/stars/expressjs/express.svg)](https://github.com/expressjs/express)
+[![License](https://img.shields.io/npm/l/express.svg)](https://github.com/expressjs/express/blob/master/LICENSE)
+
+**Fast, unopinionated, minimalist web framework for Node.js**
+
+[Website](https://expressjs.com/) | [Documentation](https://expressjs.com/en/5x/api.html) | [GitHub](https://github.com/expressjs/express) | [npm](https://www.npmjs.com/package/express)
+
+</div>
+
+# Express.js API Routes Documentation
+
+This document outlines the API routes for a web application built with Express.js, all starting from the base path `http://localhost:<port>/api/v1`.
 
 ## Authentication Routes
 
