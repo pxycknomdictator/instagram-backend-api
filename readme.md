@@ -1,100 +1,122 @@
+# Express.js API Documentation 🚀
+
 <div align="center">
-  <img src="https://camo.githubusercontent.com/86f61f7d4367c71a580e11af0bcd4f333d1b967225a679a12998657db1307dd3/68747470733a2f2f692e636c6f756475702e636f6d2f7a6659366c4c376546612d3330303078333030302e706e67" alt="Express.js Logo" width="300"/>
+  <img src="https://camo.githubusercontent.com/86f61f7d4367c71a580e11af0bcd4f333d1b967225a679a12998657db1307dd3/68747470733a2f2f692e636c6f756475702e636f6d2f7a6659366c4c376546612d3330303078333030302e706e67" alt="Express.js Logo" width="250"/>
 </div>
 
-<div align="center">
+<div align="center" style="margin-top: 10px;">
+  <a href="https://www.npmjs.com/package/express"><img src="https://img.shields.io/npm/v/express.svg" alt="NPM Version"/></a>
+  <a href="https://github.com/expressjs/express"><img src="https://img.shields.io/github/stars/expressjs/express.svg" alt="GitHub Stars"/></a>
+  <a href="https://github.com/expressjs/express/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/express.svg" alt="License"/></a>
 
-[![NPM Version](https://img.shields.io/npm/v/express.svg)](https://www.npmjs.com/package/express)
-[![GitHub Stars](https://img.shields.io/github/stars/expressjs/express.svg)](https://github.com/expressjs/express)
-[![License](https://img.shields.io/npm/l/express.svg)](https://github.com/expressjs/express/blob/master/LICENSE)
-
-**Fast, unopinionated, minimalist web framework for Node.js**
+**Fast, unopinionated, minimalist web framework for Node.js** ⚡️
 
 [Website](https://expressjs.com/) | [Documentation](https://expressjs.com/en/5x/api.html) | [GitHub](https://github.com/expressjs/express) | [npm](https://www.npmjs.com/package/express)
 
 </div>
 
-# Express.js API Routes Documentation
+## Overview 📖
 
-This document outlines the API routes for a web application built with Express.js, all starting from the base path `http://localhost:<port>/api/v1`.
+This document outlines the API routes for an Express.js-based web application, using the base path `http://localhost:<port>/api/v1`.
 
-## Authentication Routes
+## Authentication Routes 🔐
 
-- **POST /api/v1/renew-tokens**: Renew authentication tokens
-- **GET /api/v1/logout**: Log out user (requires authentication)
-- **POST /api/v1/login**: User login (validated with loginSchema)
-- **POST /api/v1/signup**: User registration (validated with registerSchema)
-- **DELETE /api/v1/account/delete**: Delete user account (requires authentication)
-- **GET /api/v1/account/reset-password-form**: Get password reset form
-- **POST /api/v1/account/forgot-password**: Initiate password reset (validated with forgotSchema)
-- **GET /api/v1/account/verify-email**: Check email verification status
-- **POST /api/v1/account/verify-email**: Verify email (requires authentication)
-- **POST /api/v1/account/reset-password**: Reset password (validated with resetPasswordSchema)
+- **POST /login**: Authenticate user 🧑‍💻
+- **POST /signup**: Register new user 📝
+- **POST /renew-tokens**: Refresh authentication tokens 🔄
+- **GET /logout**: Log out user (requires authentication) 🚪
+- **POST /account/forgot-password**: Request password reset 🔑
+- **POST /account/reset-password**: Reset password 🔒
+- **POST /account/verify-email**: Verify email address (requires authentication) 📧
+- **DELETE /account/delete**: Delete user account (requires authentication) 🗑️
 
-## Comments Routes
+## Posts Routes 📸
 
-- **GET /api/v1/comments**: Get all comments
-- **POST /api/v1/comments**: Create a new comment (requires authentication, validated with commentSchema)
-- **DELETE /api/v1/comments/:commentId**: Delete a specific comment (requires authentication)
-- **PATCH /api/v1/comments/:commentId**: Update a specific comment (requires authentication, validated with commentSchema)
+- **GET /posts**: Retrieve all posts 📜
+- **POST /posts**: Create post (requires authentication, single file: `post`) 🖼️
+- **GET /posts/:postId**: Retrieve specific post 🔍
+- **DELETE /posts/:postId**: Delete post (requires authentication) 🗑️
 
-## Health Check Route
+## Comments Routes 💬
 
-- **GET /api/v1/health**: Perform health check
+- **GET /comments**: Retrieve all comments 🗣️
+- **POST /comments**: Create comment (requires authentication) ✍️
+- **PATCH /comments/:commentId**: Update comment (requires authentication) 📝
+- **DELETE /comments/:commentId**: Delete comment (requires authentication) 🗑️
 
-## Likes Routes
+## Likes Routes ❤️
 
-- **POST /api/v1/likes**: Create a like (validated with likeSchema)
-- **DELETE /api/v1/likes/:postId**: Remove a like
+- **POST /likes**: Add like 👍
+- **DELETE /likes/:postId**: Remove like 👎
 
-## Posts Routes
+## Stories Routes 📹
 
-- **GET /api/v1/posts**: Get all posts
-- **POST /api/v1/posts**: Create a new post (requires authentication, validated with postSchema, single file upload: "post")
-- **GET /api/v1/posts/:postId**: Get a specific post
-- **DELETE /api/v1/posts/:postId**: Delete a specific post (requires authentication)
+- **POST /stories**: Upload story (single file: `story`) 🎥
+- **GET /stories/:storyId**: Retrieve specific story 📺
+- **PATCH /stories/:storyId/view**: Increment story views 👀
+- **DELETE /stories/:storyId**: Delete specific story 🗑️
+- **DELETE /stories**: Delete all user stories 🗑️
 
-## Stories Routes
+## User Profile Routes 🧑
 
-- **POST /api/v1/stories**: Upload a new story (validated with storySchema, single file upload: "story")
-- **DELETE /api/v1/stories**: Delete all user stories
-- **GET /api/v1/stories/:storyId**: Get a specific story
-- **DELETE /api/v1/stories/:storyId**: Delete a specific story
-- **PATCH /api/v1/stories/:storyId/view**: Update story views
+- **GET /profile/:username**: Retrieve user profile by username 👤
+- **GET /profile/current-user**: Retrieve current user profile 🪞
+- **PATCH /account/edit**: Update user settings ⚙️
+- **PATCH /profile/avatar**: Update avatar (single file: `avatar`) 🖼️
+- **DELETE /profile/avatar**: Remove avatar 🗑️
+- **PUT /profile/change-password**: Change password 🔒
+- **POST /profile/:userId/follow**: Follow user ➕
+- **DELETE /profile/:userId/unfollow**: Unfollow user ➖
+- **GET /profile/:username/followers**: Retrieve user's followers 👥
+- **GET /profile/:username/following**: Retrieve user's following list 👥
 
-## User Profile Routes
+## Health Check Route 🩺
 
-- **GET /api/v1/profile/:username**: Get user profile by username
-- **POST /api/v1/profile/:userId/follow**: Follow a user
-- **DELETE /api/v1/profile/:userId/unfollow**: Unfollow a user
-- **GET /api/v1/profile/:username/following**: Get users followed by username
-- **GET /api/v1/profile/:username/followers**: Get followers of username
-- **GET /api/v1/profile/current-user**: Get current user profile
-- **PATCH /api/v1/account/edit**: Update user settings (validated with settingsSchema)
-- **PATCH /api/v1/profile/avatar**: Update user avatar (single file upload: "avatar")
-- **DELETE /api/v1/profile/avatar**: Delete user avatar
-- **PUT /api/v1/profile/change-password**: Change user password (validated with passwordsSchema)
+- **GET /health**: Check API health ✅
 
-## Docker Compose Setup
+## Setup with Docker Compose 🐳
 
-This project includes a Docker Compose configuration to simplify the setup and deployment of the application and its dependencies.
+### Prerequisites 📋
 
-### Prerequisites
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-- [Docker](https://www.docker.com/get-started) installed on your machine
-- [Docker Compose](https://docs.docker.com/compose/install/) installed
+### Configuration ⚙️
 
-### Configuration
+The `compose.yml` defines:
 
-The `compose.yml` file defines the services required to run the application, including:
+- **Application Service**: Runs Express.js app 🖥️
+- **Database Service**: Configures MongoDB 🗄️
 
-- **Application Service**: Runs the Express.js application
-- **Database Service**: Configures a database (e.g., MongoDB) for persistent storage
+### Environment Setup 🌐
 
-### Getting Started
+1. **Create a `.env` file** in the project root to configure environment variables. Example:
+   ```
+   NODE_ENV=
+   PORT=
+   DATABASE_URL=
+   ARGON2_ROUND=
+   JWT_ACCESS_TOKEN_SECRET_KEY=
+   JWT_REFRESH_TOKEN_SECRET_KEY=
+   JWT_ACCESS_TOKEN_EXPIRY_TIME=
+   JWT_REFRESH_TOKEN_EXPIRY_TIME=
+   CLOUDINARY_CLOUD_NAME=
+   CLOUDINARY_API_KEY=
+   CLOUDINARY_API_SECRET=
+   RESEND_API_KEY=
+   CLIENT_ORIGIN=
+   ```
+   Ensure sensitive information like `RESEND AND CLOUDINARY` is securely generated and stored. 🔐
 
-1. **Clone the repository**:
+### Getting Started 🚀
+
+1. **Clone repository**:
    ```bash
    git clone https://github.com/pxycknomdictator/instagram-backend-api.git
    cd instagram-backend-api
+   ```
+2. **Create and configure the `.env` file** as described above. 📝
+3. **Start services**:
+   ```bash
+   docker-compose up
    ```
