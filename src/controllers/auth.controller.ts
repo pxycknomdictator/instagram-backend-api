@@ -275,12 +275,16 @@ const getVerified = asyncGuard(async (req, res) => {
 });
 
 const getCodeAndVerify = asyncGuard(async (req, res) => {
-  const code = req.body?.code;
+  const code = Number.parseInt(req.body?.code);
 
   if (!code) {
     return res
       .status(400)
       .json(new ApiRes(400, "verification code is required"));
+  }
+
+  if (typeof code === "string") {
+    return res.status(400).json(new ApiRes(400, "invalid verification code"));
   }
 
   const exists = await ResetPassword.findOne({ passwordResetCode: code });
