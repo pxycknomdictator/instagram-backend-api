@@ -19,6 +19,13 @@ const corsOptions = {
   credentials: true,
 };
 
+const ioCorsOption = {
+  cors: {
+    origin: configs.CLIENT_ORIGIN,
+    credentials: true,
+  },
+};
+
 const cookiesOptions = {
   httpOnly: true,
   secure: true,
@@ -51,4 +58,5 @@ export {
   ONE_DAY_IN_MS,
   cronStoryExpression,
   ONE_MINUTE_IN_MS,
+  ioCorsOption,
 };
