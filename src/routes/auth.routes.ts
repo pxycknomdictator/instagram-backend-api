@@ -18,6 +18,7 @@ import {
   resetPassword,
   verifyEmail,
   getVerified,
+  getCodeAndVerify,
 } from "../controllers/auth.controller.js";
 
 const router = Router();
@@ -29,6 +30,7 @@ router.post("/signup", validate(registerSchema), register);
 router.delete("/account/delete", validateAuth, deleteAccount);
 router.get("/account/reset-password-form", resetPasswordForm);
 router.post("/account/forgot-password", validate(forgotSchema), forgotPassword);
+router.post("/account/verify-by-code", getCodeAndVerify);
 router
   .route("/account/verify-email")
   .get(getVerified)
