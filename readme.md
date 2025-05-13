@@ -8,11 +8,17 @@
   <a href="https://www.npmjs.com/package/express"><img src="https://img.shields.io/npm/v/express.svg" alt="NPM Version"/></a>
   <a href="https://github.com/expressjs/express"><img src="https://img.shields.io/github/stars/expressjs/express.svg" alt="GitHub Stars"/></a>
   <a href="https://github.com/expressjs/express/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/express.svg" alt="License"/></a>
+</div>
 
-**Fast, unopinionated, minimalist web framework for Node.js** ⚡️
+<div align="center">
+  <strong>Fast, unopinionated, minimalist web framework for Node.js</strong> ⚡️
+</div>
 
-[Website](https://expressjs.com/) | [Documentation](https://expressjs.com/en/5x/api.html) | [GitHub](https://github.com/expressjs/express) | [npm](https://www.npmjs.com/package/express)
-
+<div align="center">
+  <a href="https://expressjs.com/">Website</a> | 
+  <a href="https://expressjs.com/en/5x/api.html">Documentation</a> | 
+  <a href="https://github.com/expressjs/express">GitHub</a> | 
+  <a href="https://www.npmjs.com/package/express">npm</a>
 </div>
 
 ## Overview 📖
@@ -21,13 +27,16 @@ This document outlines the API routes for an Express.js-based web application, u
 
 ## Authentication Routes 🔐
 
-- **POST /login**: Authenticate user 🧑‍💻
-- **POST /signup**: Register new user 📝
-- **POST /renew-tokens**: Refresh authentication tokens 🔄
+- **POST /login**: Authenticate user with credentials 🧑‍💻
+- **POST /signup**: Register a new user account 📝
+- **POST /renew-tokens**: Refresh user authentication tokens 🔄
 - **GET /logout**: Log out user (requires authentication) 🚪
-- **POST /account/forgot-password**: Request password reset 🔑
-- **POST /account/reset-password**: Reset password 🔒
-- **POST /account/verify-email**: Verify email address (requires authentication) 📧
+- **POST /account/forgot-password**: Request a password reset link 🔑
+- **POST /account/reset-password**: Reset user password 🔒
+- **GET /account/reset-password-form**: Display password reset form 📄
+- **GET /account/verify-email**: Verify email address via link 📧
+- **POST /account/verify-email**: Send verification email (requires authentication) 📧
+- **POST /account/verify-by-code**: Verify email using a code 📨
 - **DELETE /account/delete**: Delete user account (requires authentication) 🗑️
 
 ## Posts Routes 📸
