@@ -17,4 +17,25 @@ function tokensGenerator(payload: UserInfo) {
   return [accessToken, refreshToken];
 }
 
-export { accessTokenGenerator, refreshTokenGenerator, tokensGenerator };
+function parseCookie(cookieHeader: string) {
+  return Object.fromEntries(
+    cookieHeader.split(";").map((c) => c.trim().split("=")),
+  );
+}
+
+function tokenDecoder(token: string) {
+  try {
+    const payload = jwt.verify(token, configs.JWT_ACCESS_TOKEN_SECRET_KEY!);
+    return payload;
+  } catch (error) {
+    throw new Error("Invalid Token");
+  }
+}
+
+export {
+  accessTokenGenerator,
+  refreshTokenGenerator,
+  tokensGenerator,
+  parseCookie,
+  tokenDecoder,
+};
