@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { GenderType, UserSchema } from "../types/user.types.js";
+import { GenderType, UserSchema, Status } from "../types/user.types.js";
 
 const userSchema = new Schema<UserSchema>(
   {
@@ -18,6 +18,11 @@ const userSchema = new Schema<UserSchema>(
     posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
     followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
     following: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    status: {
+      type: String,
+      enum: Object.values(Status),
+      default: Status.offline,
+    },
   },
   { timestamps: true },
 );

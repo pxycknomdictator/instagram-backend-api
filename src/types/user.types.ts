@@ -6,12 +6,18 @@ enum GenderType {
   others = "others",
 }
 
+enum Status {
+  online = "online",
+  offline = "offline",
+}
+
 interface UserSchema extends Document {
   _id: Schema.Types.ObjectId;
   username: string;
   name: string;
   email: string;
   password: string;
+  status: Status;
   verifiedUser: boolean;
   avatar: string;
   website: string;
@@ -27,4 +33,4 @@ interface UserSchema extends Document {
   updatedAt: Date;
 }
 
-export { GenderType, UserSchema };
+export { GenderType, UserSchema, Status };
