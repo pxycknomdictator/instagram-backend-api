@@ -7,6 +7,7 @@ import { UserInfo } from "./types/token.types.js";
 import { cronJob } from "./helpers/cronJob.helper.js";
 import { configs, ioCorsOption } from "./constant.js";
 import { parseCookie, tokenDecoder } from "./helpers/token.helper.js";
+import { setUserOnline } from "./utils/status.js";
 
 const PORT = +configs.PORT;
 const server = createServer(app);
@@ -39,10 +40,12 @@ io.use((socket, next) => {
 
 const users = new Map();
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
   const socketId = socket.id;
   const { username, _id } = socket.user;
   users.set(username, { socketId, _id });
+
+  if (_id) await setUserOnline(_id);
 
   socket.on("disconnect", () => {
     users.delete(username);
