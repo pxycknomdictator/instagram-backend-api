@@ -13,3 +13,17 @@ export async function setUserOnline(_id: string): Promise<boolean> {
     return false;
   }
 }
+
+export async function setUserOffline(_id: string): Promise<boolean> {
+  try {
+    const updated = await User.findByIdAndUpdate(
+      _id,
+      { status: "offline" },
+      { new: true },
+    );
+    return !!updated;
+  } catch (error) {
+    console.error("Failed to set user status:", error);
+    return false;
+  }
+}

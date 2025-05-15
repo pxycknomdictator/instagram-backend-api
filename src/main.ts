@@ -6,8 +6,8 @@ import { database } from "./db/db.js";
 import { UserInfo } from "./types/token.types.js";
 import { cronJob } from "./helpers/cronJob.helper.js";
 import { configs, ioCorsOption } from "./constant.js";
+import { setUserOffline, setUserOnline } from "./utils/status.js";
 import { parseCookie, tokenDecoder } from "./helpers/token.helper.js";
-import { setUserOnline } from "./utils/status.js";
 
 const PORT = +configs.PORT;
 const server = createServer(app);
@@ -47,7 +47,8 @@ io.on("connection", async (socket) => {
 
   if (_id) await setUserOnline(_id);
 
-  socket.on("disconnect", () => {
+  socket.on("disconnect", async () => {
+    if (_id) await setUserOffline(_id);
     users.delete(username);
   });
 });
