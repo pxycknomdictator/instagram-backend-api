@@ -41,13 +41,11 @@ const users = new Map();
 
 io.on("connection", (socket) => {
   const socketId = socket.id;
-  const user = socket.user.username;
-  users.set(user, socketId);
-  console.log(`${user} connected`);
+  const { username, _id } = socket.user;
+  users.set(username, { socketId, _id });
 
-  socket.on("disconnect", (reason) => {
-    users.delete(user);
-    console.log(`${user} is disconnected: ${reason}`);
+  socket.on("disconnect", () => {
+    users.delete(username);
   });
 });
 
