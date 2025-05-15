@@ -51,6 +51,18 @@ export function IO(server: HTTPServer): SocketServer {
     users.set(username, { socketId, _id });
     if (_id) await setUserOnline(_id);
 
+    socket.on("send_private_message", (message: string, to: string) => {
+      const receiver = users.get(to);
+      const sender = socket.user.username;
+
+      if (!receiver) return console.log(`⚠️  User ${to} is not online.`);
+
+      io.to(receiver.socketId).emit("receive_private_message", {
+        from: sender,
+        message,
+      });
+    });
+
     socket.on("disconnect", async () => {
       users.delete(username);
       if (_id) await setUserOffline(_id);
