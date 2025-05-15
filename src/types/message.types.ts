@@ -5,6 +5,7 @@ interface MessageSchema extends Document {
   sender: Schema.Types.ObjectId;
   receiver: Schema.Types.ObjectId;
   message: string;
+  delivered: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
