@@ -31,81 +31,82 @@ All routes require the base path `http://localhost:<port>/api/v1`. Endpoints mar
 
 ### Authentication Routes 🔐
 
-| Method | Endpoint                            | Description                                    | Authentication |
-|--------|-------------------------------------|------------------------------------------------|----------------|
-| POST   | `/login`                            | Authenticate user with credentials 🧑‍💻        | None           |
-| POST   | `/signup`                           | Register a new user account 📝                 | None           |
-| POST   | `/renew-tokens`                     | Refresh user authentication tokens 🔄          | None           |
-| GET    | `/logout`                           | Log out user 🚪                               | 🔒 Required    |
-| POST   | `/account/forgot-password`          | Request a password reset link 🔑               | None           |
-| POST   | `/account/reset-password`           | Reset user password 🔒                        | None           |
-| GET    | `/account/reset-password-form`      | Display password reset form 📄                 | None           |
-| GET    | `/account/verify-email`             | Verify email address via link 📧               | None           |
-| POST   | `/account/verify-email`             | Send verification email 📧                     | 🔒 Required    |
-| POST   | `/account/verify-by-code`           | Verify email using a code 📨                   | None           |
-| DELETE | `/account/delete`                   | Delete user account 🗑️                        | 🔒 Required    |
+| Method | Endpoint                       | Description                           | Authentication |
+| ------ | ------------------------------ | ------------------------------------- | -------------- |
+| POST   | `/login`                       | Authenticate user with credentials 🧑‍💻 | None           |
+| POST   | `/signup`                      | Register a new user account 📝        | None           |
+| POST   | `/renew-tokens`                | Refresh user authentication tokens 🔄 | None           |
+| GET    | `/logout`                      | Log out user 🚪                       | 🔒 Required    |
+| POST   | `/account/forgot-password`     | Request a password reset link 🔑      | None           |
+| POST   | `/account/reset-password`      | Reset user password 🔒                | None           |
+| GET    | `/account/reset-password-form` | Display password reset form 📄        | None           |
+| GET    | `/account/verify-email`        | Verify email address via link 📧      | None           |
+| POST   | `/account/verify-email`        | Send verification email 📧            | 🔒 Required    |
+| POST   | `/account/verify-by-code`      | Verify email using a code 📨          | None           |
+| DELETE | `/account/delete`              | Delete user account 🗑️                | 🔒 Required    |
 
 ### Posts Routes 📸
 
-| Method | Endpoint                     | Description                                    | Authentication |
-|--------|------------------------------|------------------------------------------------|----------------|
-| GET    | `/posts`                     | Retrieve all posts 📜                          | None           |
-| POST   | `/posts`                     | Create post (single file: `post`) 🖼️          | 🔒 Required    |
-| GET    | `/posts/:postId`             | Retrieve specific post 🔍                      | None           |
-| DELETE | `/posts/:postId`             | Delete post 🗑️                                | 🔒 Required    |
+| Method | Endpoint         | Description                          | Authentication |
+| ------ | ---------------- | ------------------------------------ | -------------- |
+| GET    | `/posts`         | Retrieve all posts 📜                | None           |
+| POST   | `/posts`         | Create post (single file: `post`) 🖼️ | 🔒 Required    |
+| GET    | `/posts/:postId` | Retrieve specific post 🔍            | None           |
+| DELETE | `/posts/:postId` | Delete post 🗑️                       | 🔒 Required    |
 
 ### Comments Routes 💬
 
-| Method | Endpoint                     | Description                                    | Authentication |
-|--------|------------------------------|------------------------------------------------|----------------|
-| GET    | `/comments`                  | Retrieve all comments 🗣️                      | None           |
-| POST   | `/comments`                  | Create comment ✍️                             | 🔒 Required    |
-| PATCH  | `/comments/:commentId`       | Update comment 📝                             | 🔒 Required    |
-| DELETE | `/comments/:commentId`       | Delete comment 🗑️                             | 🔒 Required    |
+| Method | Endpoint               | Description              | Authentication |
+| ------ | ---------------------- | ------------------------ | -------------- |
+| GET    | `/comments`            | Retrieve all comments 🗣️ | None           |
+| POST   | `/comments`            | Create comment ✍️        | 🔒 Required    |
+| PATCH  | `/comments/:commentId` | Update comment 📝        | 🔒 Required    |
+| DELETE | `/comments/:commentId` | Delete comment 🗑️        | 🔒 Required    |
 
 ### Likes Routes ❤️
 
-| Method | Endpoint                     | Description                                    | Authentication |
-|--------|------------------------------|------------------------------------------------|----------------|
-| POST   | `/likes`                     | Add like 👍                                    | 🔒 Required    |
-| DELETE | `/likes/:postId`             | Remove like 👎                                 | 🔒 Required    |
+| Method | Endpoint         | Description    | Authentication |
+| ------ | ---------------- | -------------- | -------------- |
+| POST   | `/likes`         | Add like 👍    | 🔒 Required    |
+| DELETE | `/likes/:postId` | Remove like 👎 | 🔒 Required    |
 
 ### Stories Routes 📹
 
-| Method | Endpoint                     | Description                                    | Authentication |
-|--------|------------------------------|------------------------------------------------|----------------|
-| POST   | `/stories`                   | Upload story (single file: `story`) 🎥         | 🔒 Required    |
-| GET    | `/stories/:storyId`          | Retrieve specific story 📺                    | None           |
-| PATCH  | `/stories/:storyId/view`     | Increment story views 👀                      | None           |
-| DELETE | `/stories/:storyId`          | Delete specific story 🗑️                      | 🔒 Required    |
-| DELETE | `/stories`                   | Delete all user stories 🗑️                    | 🔒 Required    |
+| Method | Endpoint                 | Description                            | Authentication |
+| ------ | ------------------------ | -------------------------------------- | -------------- |
+| POST   | `/stories`               | Upload story (single file: `story`) 🎥 | 🔒 Required    |
+| GET    | `/stories/:storyId`      | Retrieve specific story 📺             | None           |
+| PATCH  | `/stories/:storyId/view` | Increment story views 👀               | None           |
+| DELETE | `/stories/:storyId`      | Delete specific story 🗑️               | 🔒 Required    |
+| DELETE | `/stories`               | Delete all user stories 🗑️             | 🔒 Required    |
 
 ### User Profile Routes 🧑
 
-| Method | Endpoint                            | Description                                    | Authentication |
-|--------|-------------------------------------|------------------------------------------------|----------------|
-| GET    | `/profile/:username`                | Retrieve user profile by username 👤           | None           |
-| GET    | `/profile/current-user`             | Retrieve current user profile 🪞              | 🔒 Required    |
-| PATCH  | `/account/edit`                     | Update user settings ⚙️                       | 🔒 Required    |
-| PATCH  | `/profile/avatar`                   | Update avatar (single file: `avatar`) 🖼️      | 🔒 Required    |
-| DELETE | `/profile/avatar`                   | Remove avatar 🗑️                             | 🔒 Required    |
-| PUT    | `/profile/change-password`          | Change password 🔒                            | 🔒 Required    |
-| POST   | `/profile/:userId/follow`           | Follow user ➕                                 | 🔒 Required    |
-| DELETE | `/profile/:userId/unfollow`         | Unfollow user ➖                               | 🔒 Required    |
-| GET    | `/profile/:username/followers`      | Retrieve user's followers 👥                   | None           |
-| GET    | `/profile/:username/following`      | Retrieve user's following list 👥              | None           |
+| Method | Endpoint                       | Description                              | Authentication |
+| ------ | ------------------------------ | ---------------------------------------- | -------------- |
+| GET    | `/profile/:username`           | Retrieve user profile by username 👤     | None           |
+| GET    | `/profile/current-user`        | Retrieve current user profile 🪞         | 🔒 Required    |
+| PATCH  | `/account/edit`                | Update user settings ⚙️                  | 🔒 Required    |
+| PATCH  | `/profile/avatar`              | Update avatar (single file: `avatar`) 🖼️ | 🔒 Required    |
+| DELETE | `/profile/avatar`              | Remove avatar 🗑️                         | 🔒 Required    |
+| PUT    | `/profile/change-password`     | Change password 🔒                       | 🔒 Required    |
+| POST   | `/profile/:userId/follow`      | Follow user ➕                           | 🔒 Required    |
+| DELETE | `/profile/:userId/unfollow`    | Unfollow user ➖                         | 🔒 Required    |
+| GET    | `/profile/:username/followers` | Retrieve user's followers 👥             | None           |
+| GET    | `/profile/:username/following` | Retrieve user's following list 👥        | None           |
 
 ### Messages Route 📩
 
-| Method | Endpoint                     | Description                                    | Authentication |
-|--------|------------------------------|------------------------------------------------|----------------|
-| GET    | `/messages/:username`        | Retrieve conversations for a user 📬           | 🔒 Required    |
+| Method | Endpoint               | Description                          | Authentication |
+| ------ | ---------------------- | ------------------------------------ | -------------- |
+| GET    | `/messages/:username`  | Retrieve conversations for a user 📬 | 🔒 Required    |
+| DELETE | `/messages/:messageId` | remove message from database 🗑️      | 🔒 Required    |
 
 ### Health Check Route 🩺
 
-| Method | Endpoint                     | Description                                    | Authentication |
-|--------|------------------------------|------------------------------------------------|----------------|
-| GET    | `/health`                    | Check API health ✅                            | None           |
+| Method | Endpoint  | Description         | Authentication |
+| ------ | --------- | ------------------- | -------------- |
+| GET    | `/health` | Check API health ✅ | None           |
 
 ## Route Details
 
