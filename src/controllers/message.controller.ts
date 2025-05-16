@@ -75,3 +75,18 @@ export const conversations = asyncGuard(async (req, res) => {
 
   return res.status(200).json(new ApiRes(200, "conversations", data));
 });
+
+export const deleteMessage = asyncGuard(async (req, res) => {
+  const _id = req.user?._id;
+  const { messageId } = req.params;
+
+  const message = await Message.findById(messageId);
+  if (!message) throw new Error("Message not found");
+
+  if (message.sender.toString() !== _id?.toString()) {
+    throw new Error("Not authorized to delete this message");
+  }
+
+  await Message.findByIdAndDelete(messageId);
+  res.status(204).json(new ApiRes(204, "Message Deleted"));
+});
