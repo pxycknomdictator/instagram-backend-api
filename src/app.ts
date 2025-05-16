@@ -49,6 +49,7 @@ import likeRouter from "./routes/like.routes.js";
 import storyRouter from "./routes/story.routes.js";
 import healthRouter from "./routes/health.routes.js";
 import commentRouter from "./routes/comment.routes.js";
+import messageRouter from "./routes/message.routes.js";
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/posts", postRouter);
@@ -56,6 +57,7 @@ app.use("/api/v1/likes", likeRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/stories", storyRouter);
 app.use("/api/v1/health", healthRouter);
+app.use("/api/v1/messages", messageRouter);
 app.use("/api/v1/comments", commentRouter);
 
 app.use(errorHandler);

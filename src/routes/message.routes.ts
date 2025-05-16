@@ -4,6 +4,6 @@ import { conversations } from "../controllers/message.controller.js";
 
 const router = Router();
 
-router.get("/messages/:username", validateAuth, conversations);
+router.get("/:username", validateAuth, conversations);
 
 export default router;
