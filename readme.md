@@ -23,7 +23,7 @@
 
 ## Overview 📖
 
-This document outlines the API routes for an Express.js-based web application, using the base path `http://localhost:<port>/api/v1`.
+This document outlines the API routes for an Express.js-based web application, using the base path `http://localhost:<port>/api/v1`. The API supports core social media features and includes real-time private messaging and notification capabilities.
 
 ## Authentication Routes 🔐
 
@@ -83,39 +83,47 @@ This document outlines the API routes for an Express.js-based web application, u
 
 - **GET /health**: Check API health ✅
 
+## Real-Time Private Messaging and Notifications 📡
+
+The API supports **real-time private messaging** and **notifications** to enable instant communication between users. Private messaging allows users to send and receive messages in real time, with messages stored in MongoDB for persistence. Notifications are triggered for events like new messages etc.
+
+### Features
+
+- **Private Messaging**: Users can join private conversation rooms and exchange messages instantly. Messages are saved in MongoDB for chat history retrieval.
+- **Notifications**: Real-time alerts for new messages, likes, follows, or other interactions, with RESTful routes for managing notification state.
+- **Security**: All real-time interactions require JWT authentication to ensure only authorized users can send or receive messages and notifications.
+
 ## Setup with Docker Compose 🐳
 
 ### Prerequisites 📋
 
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/install/)
+- [Node.js](https://nodejs.org/) (for local development)
 
 ### Configuration ⚙️
 
 The `compose.yml` defines:
 
-- **Application Service**: Runs Express.js app 🖥️
-- **Database Service**: Configures MongoDB 🗄️
-
 ### Environment Setup 🌐
 
 1. **Create a `.env` file** in the project root to configure environment variables. Example:
    ```
-   NODE_ENV=
-   PORT=
-   DATABASE_URL=
-   ARGON2_ROUND=
-   JWT_ACCESS_TOKEN_SECRET_KEY=
-   JWT_REFRESH_TOKEN_SECRET_KEY=
-   JWT_ACCESS_TOKEN_EXPIRY_TIME=
-   JWT_REFRESH_TOKEN_EXPIRY_TIME=
-   CLOUDINARY_CLOUD_NAME=
-   CLOUDINARY_API_KEY=
-   CLOUDINARY_API_SECRET=
-   RESEND_API_KEY=
-   CLIENT_ORIGIN=
+   NODE_ENV=development
+   PORT=3000
+   DATABASE_URL=mongodb://mongodb:27017/instagram
+   ARGON2_ROUND=10
+   JWT_ACCESS_TOKEN_SECRET_KEY=your_access_secret
+   JWT_REFRESH_TOKEN_SECRET_KEY=your_refresh_secret
+   JWT_ACCESS_TOKEN_EXPIRY_TIME=1d
+   JWT_REFRESH_TOKEN_EXPIRY_TIME=7d
+   CLOUDINARY_CLOUD_NAME=your_cloud_name
+   CLOUDINARY_API_KEY=your_api_key
+   CLOUDINARY_API_SECRET=your_api_secret
+   RESEND_API_KEY=your_resend_api_key
+   CLIENT_ORIGIN=http://localhost:3000
    ```
-   Ensure sensitive information like `RESEND AND CLOUDINARY` is securely generated and stored. 🔐
+   Ensure sensitive information like `RESEND`, `CLOUDINARY`, and `JWT` secrets is securely generated and stored. 🔐
 
 ### Getting Started 🚀
 
@@ -124,8 +132,16 @@ The `compose.yml` defines:
    git clone https://github.com/pxycknomdictator/instagram-backend-api.git
    cd instagram-backend-api
    ```
-2. **Create and configure the `.env` file** as described above. 📝
-3. **Start services**:
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+3. **Create and configure the `.env` file** as described above. 📝
+4. **Start services**:
    ```bash
    docker-compose up
    ```
+
+## License 📜
+
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/expressjs/express/blob/master/LICENSE) file for details.
