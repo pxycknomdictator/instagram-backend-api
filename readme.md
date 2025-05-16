@@ -23,69 +23,128 @@
 
 ## Overview 📖
 
-This document outlines the API routes for an Express.js-based web application, using the base path `http://localhost:<port>/api/v1`. The API supports core social media features and includes real-time private messaging and notification capabilities.
+This document outlines the API routes for an Express.js-based web application, using the base path `http://localhost:<port>/api/v1`. The API supports core social media features, including user authentication, posts, comments, likes, stories, user profiles, and real-time private messaging and notifications.
 
-## Authentication Routes 🔐
+## API Routes
 
-- **POST /login**: Authenticate user with credentials 🧑‍💻
-- **POST /signup**: Register a new user account 📝
-- **POST /renew-tokens**: Refresh user authentication tokens 🔄
-- **GET /logout**: Log out user (requires authentication) 🚪
-- **POST /account/forgot-password**: Request a password reset link 🔑
-- **POST /account/reset-password**: Reset user password 🔒
-- **GET /account/reset-password-form**: Display password reset form 📄
-- **GET /account/verify-email**: Verify email address via link 📧
-- **POST /account/verify-email**: Send verification email (requires authentication) 📧
-- **POST /account/verify-by-code**: Verify email using a code 📨
-- **DELETE /account/delete**: Delete user account (requires authentication) 🗑️
+All routes require the base path `http://localhost:<port>/api/v1`. Endpoints marked with 🔒 require a valid JWT token in the `Authorization` header (e.g., `Bearer <token>`).
 
-## Posts Routes 📸
+### Authentication Routes 🔐
 
-- **GET /posts**: Retrieve all posts 📜
-- **POST /posts**: Create post (requires authentication, single file: `post`) 🖼️
-- **GET /posts/:postId**: Retrieve specific post 🔍
-- **DELETE /posts/:postId**: Delete post (requires authentication) 🗑️
+| Method | Endpoint                            | Description                                    | Authentication |
+|--------|-------------------------------------|------------------------------------------------|----------------|
+| POST   | `/login`                            | Authenticate user with credentials 🧑‍💻        | None           |
+| POST   | `/signup`                           | Register a new user account 📝                 | None           |
+| POST   | `/renew-tokens`                     | Refresh user authentication tokens 🔄          | None           |
+| GET    | `/logout`                           | Log out user 🚪                               | 🔒 Required    |
+| POST   | `/account/forgot-password`          | Request a password reset link 🔑               | None           |
+| POST   | `/account/reset-password`           | Reset user password 🔒                        | None           |
+| GET    | `/account/reset-password-form`      | Display password reset form 📄                 | None           |
+| GET    | `/account/verify-email`             | Verify email address via link 📧               | None           |
+| POST   | `/account/verify-email`             | Send verification email 📧                     | 🔒 Required    |
+| POST   | `/account/verify-by-code`           | Verify email using a code 📨                   | None           |
+| DELETE | `/account/delete`                   | Delete user account 🗑️                        | 🔒 Required    |
 
-## Comments Routes 💬
+### Posts Routes 📸
 
-- **GET /comments**: Retrieve all comments 🗣️
-- **POST /comments**: Create comment (requires authentication) ✍️
-- **PATCH /comments/:commentId**: Update comment (requires authentication) 📝
-- **DELETE /comments/:commentId**: Delete comment (requires authentication) 🗑️
+| Method | Endpoint                     | Description                                    | Authentication |
+|--------|------------------------------|------------------------------------------------|----------------|
+| GET    | `/posts`                     | Retrieve all posts 📜                          | None           |
+| POST   | `/posts`                     | Create post (single file: `post`) 🖼️          | 🔒 Required    |
+| GET    | `/posts/:postId`             | Retrieve specific post 🔍                      | None           |
+| DELETE | `/posts/:postId`             | Delete post 🗑️                                | 🔒 Required    |
 
-## Likes Routes ❤️
+### Comments Routes 💬
 
-- **POST /likes**: Add like 👍
-- **DELETE /likes/:postId**: Remove like 👎
+| Method | Endpoint                     | Description                                    | Authentication |
+|--------|------------------------------|------------------------------------------------|----------------|
+| GET    | `/comments`                  | Retrieve all comments 🗣️                      | None           |
+| POST   | `/comments`                  | Create comment ✍️                             | 🔒 Required    |
+| PATCH  | `/comments/:commentId`       | Update comment 📝                             | 🔒 Required    |
+| DELETE | `/comments/:commentId`       | Delete comment 🗑️                             | 🔒 Required    |
 
-## Stories Routes 📹
+### Likes Routes ❤️
 
-- **POST /stories**: Upload story (single file: `story`) 🎥
-- **GET /stories/:storyId**: Retrieve specific story 📺
-- **PATCH /stories/:storyId/view**: Increment story views 👀
-- **DELETE /stories/:storyId**: Delete specific story 🗑️
-- **DELETE /stories**: Delete all user stories 🗑️
+| Method | Endpoint                     | Description                                    | Authentication |
+|--------|------------------------------|------------------------------------------------|----------------|
+| POST   | `/likes`                     | Add like 👍                                    | 🔒 Required    |
+| DELETE | `/likes/:postId`             | Remove like 👎                                 | 🔒 Required    |
 
-## User Profile Routes 🧑
+### Stories Routes 📹
 
-- **GET /profile/:username**: Retrieve user profile by username 👤
-- **GET /profile/current-user**: Retrieve current user profile 🪞
-- **PATCH /account/edit**: Update user settings ⚙️
-- **PATCH /profile/avatar**: Update avatar (single file: `avatar`) 🖼️
-- **DELETE /profile/avatar**: Remove avatar 🗑️
-- **PUT /profile/change-password**: Change password 🔒
-- **POST /profile/:userId/follow**: Follow user ➕
-- **DELETE /profile/:userId/unfollow**: Unfollow user ➖
-- **GET /profile/:username/followers**: Retrieve user's followers 👥
-- **GET /profile/:username/following**: Retrieve user's following list 👥
+| Method | Endpoint                     | Description                                    | Authentication |
+|--------|------------------------------|------------------------------------------------|----------------|
+| POST   | `/stories`                   | Upload story (single file: `story`) 🎥         | 🔒 Required    |
+| GET    | `/stories/:storyId`          | Retrieve specific story 📺                    | None           |
+| PATCH  | `/stories/:storyId/view`     | Increment story views 👀                      | None           |
+| DELETE | `/stories/:storyId`          | Delete specific story 🗑️                      | 🔒 Required    |
+| DELETE | `/stories`                   | Delete all user stories 🗑️                    | 🔒 Required    |
 
-## Health Check Route 🩺
+### User Profile Routes 🧑
 
-- **GET /health**: Check API health ✅
+| Method | Endpoint                            | Description                                    | Authentication |
+|--------|-------------------------------------|------------------------------------------------|----------------|
+| GET    | `/profile/:username`                | Retrieve user profile by username 👤           | None           |
+| GET    | `/profile/current-user`             | Retrieve current user profile 🪞              | 🔒 Required    |
+| PATCH  | `/account/edit`                     | Update user settings ⚙️                       | 🔒 Required    |
+| PATCH  | `/profile/avatar`                   | Update avatar (single file: `avatar`) 🖼️      | 🔒 Required    |
+| DELETE | `/profile/avatar`                   | Remove avatar 🗑️                             | 🔒 Required    |
+| PUT    | `/profile/change-password`          | Change password 🔒                            | 🔒 Required    |
+| POST   | `/profile/:userId/follow`           | Follow user ➕                                 | 🔒 Required    |
+| DELETE | `/profile/:userId/unfollow`         | Unfollow user ➖                               | 🔒 Required    |
+| GET    | `/profile/:username/followers`      | Retrieve user's followers 👥                   | None           |
+| GET    | `/profile/:username/following`      | Retrieve user's following list 👥              | None           |
+
+### Messages Route 📩
+
+| Method | Endpoint                     | Description                                    | Authentication |
+|--------|------------------------------|------------------------------------------------|----------------|
+| GET    | `/messages/:username`        | Retrieve conversations for a user 📬           | 🔒 Required    |
+
+### Health Check Route 🩺
+
+| Method | Endpoint                     | Description                                    | Authentication |
+|--------|------------------------------|------------------------------------------------|----------------|
+| GET    | `/health`                    | Check API health ✅                            | None           |
+
+## Route Details
+
+- **Authentication Routes**:
+  - Handle user login, signup, token refresh, logout, and account management (password reset, email verification, account deletion).
+  - Example: `POST /login` expects `{ email, password }` and returns JWT tokens.
+- **Posts Routes**:
+  - Manage social media posts, including creation (with file upload), retrieval, and deletion.
+  - Example: `POST /posts` requires a multipart form with a `post` file.
+- **Comments Routes**:
+  - Allow users to view, create, update, or delete comments on posts.
+  - Example: `POST /comments` expects `{ text: string }`.
+- **Likes Routes**:
+  - Enable liking and unliking posts.
+  - Example: `POST /likes` expects `{ postId: string }`.
+- **Stories Routes**:
+  - Support story uploads, views, and deletions.
+  - Example: `POST /stories` requires a multipart form with a `story` file.
+- **User Profile Routes**:
+  - Manage user profiles, avatars, passwords, and follow/unfollow actions.
+  - Example: `PATCH /profile/avatar` requires a multipart form with an `avatar` file.
+- **Messages Route**:
+  - Retrieve private conversations between the authenticated user and a specified user.
+  - Middleware: `validateAuth` ensures JWT authentication.
+  - Example: `GET /messages/johndoe` returns `[{ id: 1, recipient: "johndoe", message: "Hello!", timestamp: "2025-05-16T12:13:00Z" }, ...]`.
+- **Health Check Route**:
+  - Verify API availability.
+  - Example: `GET /health` returns `{ status: "OK" }`.
+
+## Error Handling
+
+- **400 Bad Request**: Invalid request body or parameters.
+- **401 Unauthorized**: Missing or invalid JWT token.
+- **404 Not Found**: Resource (e.g., post, user) not found.
+- **500 Internal Server Error**: Unexpected server issues.
 
 ## Real-Time Private Messaging and Notifications 📡
 
-The API supports **real-time private messaging** and **notifications** to enable instant communication between users. Private messaging allows users to send and receive messages in real time, with messages stored in MongoDB for persistence. Notifications are triggered for events like new messages etc.
+The API supports **real-time private messaging** and **notifications** to enable instant communication between users. Private messaging allows users to send and receive messages in real time, with messages stored in MongoDB for persistence. Notifications are triggered for events like new messages, likes, follows, or other interactions.
 
 ### Features
 
@@ -103,12 +162,12 @@ The API supports **real-time private messaging** and **notifications** to enable
 
 ### Configuration ⚙️
 
-The `compose.yml` defines:
+The `compose.yml` defines the service configuration for the API and MongoDB.
 
 ### Environment Setup 🌐
 
 1. **Create a `.env` file** in the project root to configure environment variables. Example:
-   ```
+   ```plaintext
    NODE_ENV=development
    PORT=3000
    DATABASE_URL=mongodb://mongodb:27017/instagram
